@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Розклад</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: row;
+      margin: 0;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 200px;
+      background-color: #6402ff;
+      padding: 10px;
+      position: fixed;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      box-sizing: border-box;
+    }
+
+    .content {
+      margin-left: 200px;
+      flex-grow: 1;
+      padding: 20px;
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .sidebar li {
+      padding: 10px;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: white;
+      font-size: 32px;
+      font-weight: bold;
+      display: block;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .sidebar a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding-left: 10px;
+    }
+
+    .collapse {
+      display: none;
+      padding-left: 10px;
+    }
+
+    .collapse.show {
+      display: block;
+    }
+
+    .collapse-item {
+      color: white;
+      font-size: 15px;
+      padding: 5px;
+      display: block;
+      text-decoration: none;
+      font-weight: normal;
+      background-color: rgba(100, 2, 255, 0.2);
+      border-radius: 5px;
+    }
+
+    .collapse-item:hover {
+      background-color: rgba(100, 2, 255, 0.4);
+    }
+
+    .nav-link {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+    }
+
+    .nav-link i {
+      display: flex;
+      align-items: center;
+    }
+
+    .bg-white {
+      background-color: #8479b9;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    .rounded {
+      border-radius: 5px;
+    }
+    #w7-collapse2 {
+        margin-top: 20px; /* Відступ від верхнього елемента (можна змінити значення) */
+        margin-bottom: auto; /* Забезпечує, щоб елемент був відцентрований по вертикалі */
+      }
+    #w7-collapse2 .collapse-item {
+      font-size: 25px; /* Можна змінити на потрібний розмір */
+    }
+  </style>
+</head>
+<body>
+<div class="sidebar">
+  <ul>
+    <li><a href="http://example.com">Головна</a></li>
+    <li>
+      <a class="nav-link" href="#" data-toggle="collapse" data-target="#w7-collapse2" aria-expanded="false" aria-controls="w7-collapse2">
+        <i class="fas fa-fw fa-calendar"></i><span>Розклад</span>
+      </a>
+      <div id="w7-collapse2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <a class="collapse-item" href="/time-table/student">Для студента</a>
+          <a class="collapse-item" href="/time-table/group">Для викладача</a>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="content">
+  <h1>Розклад</h1>
+  <form action="/schedule/view_schedule" method="get">
+    <label for="classSelect">Виберіть клас:</label>
+    <select name="class" id="classSelect">
+      <option value="">Оберіть клас</option>
+      <!-- Перебираємо класи з бази даних -->
+      <th:block th:each="class : ${classes}">
+        <option th:value="${class.id}" th:text="${class.className}"></option>
+      </th:block>
+    </select>
+
+    <label for="teacherSelect">Виберіть викладача:</label>
+    <select name="teacher" id="teacherSelect">
+      <option value="">Оберіть викладача</option>
+      <!-- Перебираємо викладачів з бази даних -->
+      <th:block th:each="teacher : ${teachers}">
+        <option th:value="${teacher.id}" th:text="${teacher.name}"></option>
+      </th:block>
+    </select>
+
+    <button type="submit">Показати розклад</button>
+  </form>
+</div>
+
+<!-- Підключення скриптів для колапс-меню -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const navLink = document.querySelector('.nav-link');
+    const collapseMenu = document.getElementById('w7-collapse2');
+
+    if (navLink) {
+      navLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        collapseMenu.classList.toggle('show');
+      });
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Розклад викладача</title>
+</head>
+<body>
+<h1>Розклад для викладача</h1>
+
+<form action="/schedule/teacher" method="get">
+    <div>
+        <label for="teacher">Викладач:</label>
+        <select id="teacher" name="teacher">
+            <option th:each="teacher : ${teachers}" th:value="${teacher.id}" th:text="${teacher.name}"></option>
+        </select>
+    </div>
+
+    <div>
+        <label for="dayOfWeek">День тижня:</label>
+        <select id="dayOfWeek" name="dayOfWeek">
+            <option value="MONDAY">Понеділок</option>
+            <option value="TUESDAY">Вівторок</option>
+            <option value="WEDNESDAY">Середа</option>
+            <option value="THURSDAY">Четвер</option>
+            <option value="FRIDAY">П’ятниця</option>
+            <option value="SATURDAY">Субота</option>
+        </select>
+    </div>
+
+    <button type="submit">Показати розклад</button>
+</form>
+
+<div th:if="${schedule}">
+    <table>
+        <thead>
+        <tr>
+            <th>Час</th>
+            <th>Предмет</th>
+            <th>Клас</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${schedule}">
+            <td th:text="${item.lessonTime}"></td>
+            <td th:text="${item.subject}"></td>
+            <td th:text="${item.sclass.name}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
