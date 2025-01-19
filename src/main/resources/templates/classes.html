@@ -7,10 +7,14 @@
 </head>
 <body>
 <h1>Classes</h1>
+<select>
+    <option th:each="class : ${classes}" th:value="${class}" th:text="${class}"></option>
+</select>
+<!--
 <ul>
     <th:block th:each="class : ${classes}">
         <li th:text="${class}"></li>
     </th:block>
-</ul>
+</ul>-->
 </body>
 </html>

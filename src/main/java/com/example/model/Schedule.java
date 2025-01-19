@@ -18,7 +18,7 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "class_id")
-    private Classes schoolClasses;
+    private Classes classes;
 
     @ManyToOne
     @JoinColumn(name = "lesson_time_id")

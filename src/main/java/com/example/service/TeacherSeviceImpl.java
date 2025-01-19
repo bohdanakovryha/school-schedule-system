@@ -10,10 +10,10 @@ import java.util.List;
 @Service
 public class TeacherSeviceImpl implements TeacherService {
     @Autowired
-    private TeacherService teacherService;
+    private TeacherRepository teacherRepository;
 
     @Override
     public List<Teacher> getTeachers() {
-        return teacherService.getTeachers();
+        return teacherRepository.findAll();
     }
 }

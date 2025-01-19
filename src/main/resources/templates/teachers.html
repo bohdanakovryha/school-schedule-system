@@ -6,7 +6,7 @@
 <body>
 <h1>Розклад для викладача</h1>
 
-<form action="/schedule/teacher" method="get">
+<form action="/api/teachers" method="get">
     <div>
         <label for="teacher">Викладач:</label>
         <select id="teacher" name="teacher">
@@ -42,7 +42,7 @@
         <tr th:each="item : ${schedule}">
             <td th:text="${item.lessonTime}"></td>
             <td th:text="${item.subject}"></td>
-            <td th:text="${item.sclass.name}"></td>
+            <td th:text="${item.class.name}"></td>
         </tr>
         </tbody>
     </table>

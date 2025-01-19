@@ -1,30 +1,28 @@
 package com.example.controller;
 
+
+import com.example.model.Schedule;
 import com.example.model.Teacher;
-import com.example.repository.TeacherRepository;
 import com.example.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@RestController
+@Controller
+@RequestMapping("teachers")
 public class TeacherController {
-    /*@Autowired
+    @Autowired
     private TeacherService teacherService;
 
-    @GetMapping("/teacher")
-    public List<Teacher> getTeachers() {
-        return teacherService.getTeachers();
-    }
-*/
-    @Autowired
-    private TeacherRepository teacherRepository;
-
-    @GetMapping("/teachers")
-    public List<Teacher> getAllTeachers() {
-        return teacherRepository.findAll(); // Витягнути всіх викладачів з бази даних
+    @GetMapping
+    public String teacher(Model model) {
+        List<Teacher> allTeachers = teacherService.getTeachers();
+        model.addAttribute("teachers", allTeachers);
+       // model.getAttribute();
+        return "teachers.html";
     }
 }
