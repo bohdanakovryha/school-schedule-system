@@ -99,12 +99,88 @@
     .rounded {
       border-radius: 5px;
     }
+
     #w7-collapse2 {
-        margin-top: 20px; /* Відступ від верхнього елемента (можна змінити значення) */
-        margin-bottom: auto; /* Забезпечує, щоб елемент був відцентрований по вертикалі */
-      }
+      margin-top: 20px;
+      margin-bottom: auto;
+    }
     #w7-collapse2 .collapse-item {
-      font-size: 25px; /* Можна змінити на потрібний розмір */
+      font-size: 25px;
+    }
+
+    /* Сховати блоки по замовчуванню */
+    #roleSelect, #classSelect, #teacherSelect {
+      display: none;
+    }
+
+    /* Стилі для тексту "Тут буде Ваш розклад" */
+    #defaultText {
+      font-size: 24px;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    #classSelect, #teacherSelect {
+      margin-top: 20px;
+    }
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+    }
+
+    /* Стилі для option */
+    option {
+      font-size: 16px;
+      padding: 10px;
+    }
+
+    /* Стилі для кнопки вибору класу та викладача */
+    #classDropdown, #teacherDropdown {
+      margin-top: 20px;
+    }
+
+    /* Додаткові стилі для "Оберіть клас" та "Оберіть викладача" */
+    #classDropdown option, #teacherDropdown option {
+      background-color: #f4f4f4;
+    }
+
+    /* При наведенні курсора на елемент */
+    #classDropdown option:hover, #teacherDropdown option:hover {
+      background-color: #ddd;
+    }
+
+    /* Стилі для контейнера для вибору класу та викладача */
+    #classSelect, #teacherSelect {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #6402ff;
+      border-radius: 5px;
+      color: white;
+    }
+
+    /* Стилі для заголовку */
+    #classSelect h3, #teacherSelect h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    /* Загальний стиль для всіх елементів select */
+    #classDropdown, #teacherDropdown {
+      font-size: 16px;
+      padding: 8px;
+      background-color: #f4f4f4;
+      border-radius: 5px;
+    }
+
+    /* Стилизація для активних елементів */
+    #classDropdown:focus, #teacherDropdown:focus {
+      border-color: #6402ff;
+      outline: none;
     }
   </style>
 </head>
@@ -118,8 +194,8 @@
       </a>
       <div id="w7-collapse2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-          <a class="collapse-item" href="/time-table/student">Для студента</a>
-          <a class="collapse-item" href="/time-table/group">Для викладача</a>
+          <a class="collapse-item" href="javascript:void(0)" onclick="showRoleContent('student')">Для студента</a>
+          <a class="collapse-item" href="javascript:void(0)" onclick="showRoleContent('teacher')">Для викладача</a>
         </div>
       </div>
     </li>
@@ -128,31 +204,161 @@
 
 <div class="content">
   <h1>Розклад</h1>
-  <form action="/schedule/view_schedule" method="get">
-    <label for="classSelect">Виберіть клас:</label>
-    <select name="class" id="classSelect">
+  <div id="defaultText">Тут буде Ваш розклад</div>
+
+  <!-- Вибір ролі (студент або викладач) -->
+  <div id="roleSelect">
+    <h3>Оберіть роль:</h3>
+    <select id="userRole" onchange="showRoleContent()">
+      <option value="">Оберіть роль</option>
+      <option value="student">Для Студента</option>
+      <option value="teacher">Для Викладача</option>
+    </select>
+  </div>
+
+  <!-- Вибір класу для студента -->
+  <div id="classSelect">
+    <h3>Оберіть Ваш клас:</h3>
+    <select id="classDropdown">
       <option value="">Оберіть клас</option>
-      <!-- Перебираємо класи з бази даних -->
-      <th:block th:each="class : ${classes}">
-        <option th:value="${class.id}" th:text="${class.className}"></option>
-      </th:block>
+      <option value="1">1 клас</option>
+      <option value="2">2 клас</option>
+      <option value="3">3 клас</option>
+      <option value="4">4 клас</option>
+      <option value="5">5 клас</option>
+      <option value="6">6 клас</option>
+      <option value="7">7 клас</option>
+      <option value="8">8 клас</option>
+      <option value="9">9 клас</option>
+      <option value="10">10 клас</option>
+      <option value="11">11 клас</option>
+      <option value="12">12 клас</option>
+      <option value="13">Індивідуальне</option>
     </select>
+  </div>
 
-    <label for="teacherSelect">Виберіть викладача:</label>
-    <select name="teacher" id="teacherSelect">
+  <!-- Вибір викладача для викладача -->
+  <div id="teacherSelect">
+    <h3>Оберіть викладача:</h3>
+    <select id="teacherDropdown">
       <option value="">Оберіть викладача</option>
-      <!-- Перебираємо викладачів з бази даних -->
-      <th:block th:each="teacher : ${teachers}">
-        <option th:value="${teacher.id}" th:text="${teacher.name}"></option>
-      </th:block>
+      <option value="1">Коврига Леся Вікторівна</option>
+      <option value="2">Шевченко Тетяна Михайлівна</option>
+      <option value="3">Власенко Людмила Дмитрівна</option>
+      <option value="4">Гуленко Сергій Володимирович</option>
+      <option value="5">Гуленко Володимир Сергійович</option>
+      <option value="6">Олефіренко Ірина Леонідівна</option>
+      <option value="7">Куцекінь Володимир Миколайович</option>
+      <option value="8">Гелевера Анатолій Андрійович</option>
+      <option value="9">Гуленко Лідія Григорівна</option>
+      <option value="10">Власенко Світлана Сергіївна</option>
+      <option value="11">Тесленко Людмила Миколаївна</option>
+      <option value="12">Коврига Олександр Миколайович</option>
+      <option value="13">Демидюк Сергій Володимирович</option>
     </select>
-
-    <button type="submit">Показати розклад</button>
-  </form>
+  </div>
 </div>
 
-<!-- Підключення скриптів для колапс-меню -->
 <script>
+  // Показати відповідний блок (клас для студента або викладача)
+  function showRoleContent(role) {
+    // Сховати всі блоки
+    document.getElementById("classSelect").style.display = "none";
+    document.getElementById("teacherSelect").style.display = "none";
+    document.getElementById("defaultText").style.display = "none";
+
+    // Показати вибраний блок
+    if (role === "student") {
+      document.getElementById("classSelect").style.display = "block";
+    } else if (role === "teacher") {
+      document.getElementById("teacherSelect").style.display = "block";
+    }
+  }
+
+  // Завантажити класи (якщо сервер не відповідає)
+  function loadClasses() {
+    fetch('/api/classes')
+            .then(response => response.json())
+            .then(classes => {
+              const classDropdown = document.getElementById("classDropdown");
+              classDropdown.innerHTML = "<option value=''>Оберіть клас</option>"; // Очистити попередні опції
+              if (classes.length > 0) {
+                classes.forEach(cls => {
+                  const option = document.createElement("option");
+                  option.value = cls.id;
+                  option.text = cls.name;
+                  classDropdown.appendChild(option);
+                });
+              } else {
+                // Якщо API не повертає дані, додаємо стандартні варіанти
+                const defaultClasses = [
+                  {id: '1', name: '1 клас'},
+                  {id: '2', name: '2 клас'},
+                  {id: '3', name: '3 клас'},
+                  {id: '4', name: '4 клас'},
+                  {id: '5', name: '5 клас'},
+                  {id: '6', name: '6 клас'},
+                  {id: '7', name: '7 клас'},
+                  {id: '8', name: '8 клас'},
+                  {id: '9', name: '9 клас'},
+                  {id: '10', name: '10 клас'},
+                  {id: '11', name: '11 клас'},
+                  {id: '12', name: '12 клас'},
+                  {id: '13', name: 'Індивідуальне'}
+                ];
+                defaultClasses.forEach(cls => {
+                  const option = document.createElement("option");
+                  option.value = cls.id;
+                  option.text = cls.name;
+                  classDropdown.appendChild(option);
+                });
+              }
+            })
+            .catch(error => console.error('Error loading classes:', error));
+  }
+
+  // Завантажити викладачів (якщо сервер не відповідає)
+  function loadTeachers() {
+    fetch('/api/teachers')
+            .then(response => response.json())
+            .then(teachers => {
+              const teacherDropdown = document.getElementById("teacherDropdown");
+              teacherDropdown.innerHTML = "<option value=''>Оберіть викладача</option>"; // Очистити попередні опції
+              if (teachers.length > 0) {
+                teachers.forEach(teacher => {
+                  const option = document.createElement("option");
+                  option.value = teacher.id;
+                  option.text = teacher.name;
+                  teacherDropdown.appendChild(option);
+                });
+              } else {
+                // Якщо API не повертає дані, додаємо стандартних викладачів
+                const defaultTeachers = [
+                  {id: '1', name: 'Коврига Леся Вікторівна'},
+                  {id: '2', name: 'Шевченко Тетяна Михайлівна'},
+                  {id: '3', name: 'Власенко Людмила Дмитрівна'},
+                  {id: '4', name: 'Гуленко Сергій Володимирович'},
+                  {id: '5', name: 'Гуленко Володимир Сергійович'},
+                  {id: '6', name: 'Олефіренко Ірина Леонідівна'},
+                  {id: '7', name: 'Куцекінь Володимир Миколайович'},
+                  {id: '8', name: 'Гелевера Анатолій Андрійович'},
+                  {id: '9', name: 'Гуленко Лідія Григорівна'},
+                  {id: '10', name: 'Власенко Світлана Сергіївна'},
+                  {id: '11', name: 'Тесленко Людмила Миколаївна'},
+                  {id: '12', name: 'Коврига Олександр Миколайович'},
+                  {id: '13', name: 'Демидюк Сергій Володимирович'}
+                ];
+                defaultTeachers.forEach(teacher => {
+                  const option = document.createElement("option");
+                  option.value = teacher.id;
+                  option.text = teacher.name;
+                  teacherDropdown.appendChild(option);
+                });
+              }
+            })
+            .catch(error => console.error('Error loading teachers:', error));
+  }
+
   document.addEventListener("DOMContentLoaded", function() {
     const navLink = document.querySelector('.nav-link');
     const collapseMenu = document.getElementById('w7-collapse2');
