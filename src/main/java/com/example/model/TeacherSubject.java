@@ -20,4 +20,9 @@ public class TeacherSubject {
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
+    @Override
+    public String toString() {
+        return subject.getName() + " (" + teacher.getName() + ")";
+    }
+
 }

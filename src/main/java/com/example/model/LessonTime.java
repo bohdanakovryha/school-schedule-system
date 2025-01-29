@@ -14,8 +14,7 @@ public class LessonTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String startTime;
-    private String endTime;
+    private String time;
 
     @OneToMany(mappedBy = "lessonTime")
     private Set<Schedule> schedules;

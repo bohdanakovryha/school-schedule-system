@@ -3,6 +3,7 @@ package com.example.model;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +22,12 @@ public class Teacher {
     @OneToMany(mappedBy = "teacher")
     private Set<TeacherSubject> teacherSubjects;
 
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", teacherSubjects=" + teacherSubjects +
+                '}';
+    }
 }

@@ -24,15 +24,9 @@ public class ClassesController {
 
     @GetMapping
     public String getClasses(Model model) {
-        List<String> classesName = classService.getClasses();  // Переконайтеся, що цей метод повертає правильний список класів
+        List<Classes> classesName = classService.getClasses();
         model.addAttribute("classes", classesName);
-        return "classes.html";  // Переконайтеся, що файл шаблону classes.html існує
-    }
-
-    @GetMapping("/api/classes")
-    @ResponseBody
-    public List<Classes> getClassesApi() {
-        return classService.getClassesEntities();  // Переконайтеся, що цей метод повертає правильні дані
+        return "classes";
     }
 }
 

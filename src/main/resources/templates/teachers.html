@@ -1,51 +1,209 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang=”en” xmlns:th=”http://www.thymeleaf.org”>
 <head>
     <title>Розклад викладача</title>
+    <style>
+        /* Загальний стиль для контенту */
+        .content {
+
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #8479b9;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Стиль для заголовка */
+        .schedule-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Стиль для форми */
+        .teacher-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        /* Стиль для мітки */
+        .form-label {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        /* Стиль для select */
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #6402ff;
+            box-shadow: 0 0 5px rgba(100, 2, 255, 0.5);
+        }
+
+        /* Стиль для кнопки */
+        .form-submit {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #6402ff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-submit:hover {
+            background-color: rgba(100, 2, 255, 0.8);
+        }
+
+        .form-submit:active {
+            background-color: rgba(100, 2, 255, 0.6);
+        }
+        .schedule-table {
+            background-color: #ffffff; /* Білий фон для таблиці */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .schedule-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .schedule-table th {
+            background-color: #6402ff; /* Фон заголовків */
+            color: white;
+            font-weight: bold;
+        }
+
+        .schedule-table td {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .schedule-table tr:nth-child(even) td {
+            background-color: #e6e6e6; /* Альтернативний фон для рядків */
+        }
+
+        .schedule-table tr:hover td {
+            background-color: rgba(100, 2, 255, 0.2); /* Ефект наведення */
+        }
+
+        .schedule-table tr:hover td:hover {
+            cursor: pointer;
+        }
+
+    </style>
 </head>
 <body>
-<h1>Розклад для викладача</h1>
-
-<form action="/api/teachers" method="get">
-    <div>
-        <label for="teacher">Викладач:</label>
-        <select id="teacher" name="teacher">
-            <option th:each="teacher : ${teachers}" th:value="${teacher.id}" th:text="${teacher.name}"></option>
+<div class="content">
+    <h1 class="schedule-title">Розклад для викладача</h1>
+    <form class="teacher-form" action="#" th:action="@{/schedule/teacher}" th:object="${teacher}" method="get">
+        <label for="teacher" class="form-label">Викладач:</label>
+        <select id="teacher" name="teacher" class="form-select">
+            <option th:each="teacher : ${teachers}" th:value="${teacher.id}" th:text="${teacher.name}" th:selected="${teacher.id == selectedTeacherId}"></option>
         </select>
+        <input type="submit" value="Показати розклад" class="form-submit" />
+    </form>
+</div>
+<!-- - <tr> - рядок таблиці.
+ <th> - заголовок таблиці.
+<td> - колонка з даними таблиці-->
+
+<div class="content">
+    <div th:if="${schedule}" class="schedule-table">
+        <table>
+            <thead>
+            <tr>
+                <th>Номер та час уроку</th>
+                <th>Понеділок</th>
+                <th>Вівторок</th>
+                <th>Середа</th>
+                <th>Четвер</th>
+                <th>П'ятниця</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Створюємо рядки для кожного уроку -->
+            <tr th:each="lesson, lessonStat : ${lessonTime}">
+                <!-- Додаємо статичну колонку з номерами -->
+                <td>
+                    <span th:text="${lessonStat.index + 1} + ' урок'"></span><br/>
+                    <span th:text="${lesson.time}"></span>
+                </td>
+                <td th:if="${lessonStat.index < scheduleMonday.size()}"
+                    th:text="${scheduleMonday[lessonStat.index]}">
+                </td>
+                <td th:if="${lessonStat.index < scheduleTuesday.size()}"
+                    th:text="${scheduleTuesday[lessonStat.index]}">
+                </td>
+                <td th:if="${lessonStat.index < scheduleWednesday.size()}"
+                    th:text="${scheduleWednesday[lessonStat.index]}">
+                </td>
+                <td th:if="${lessonStat.index < scheduleThursday.size()}"
+                    th:text="${scheduleThursday[lessonStat.index]}">
+                </td>
+                <td th:if="${lessonStat.index < scheduleFriday.size()}"
+                    th:text="${scheduleFriday[lessonStat.index]}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+</div>
 
-    <div>
-        <label for="dayOfWeek">День тижня:</label>
-        <select id="dayOfWeek" name="dayOfWeek">
-            <option value="MONDAY">Понеділок</option>
-            <option value="TUESDAY">Вівторок</option>
-            <option value="WEDNESDAY">Середа</option>
-            <option value="THURSDAY">Четвер</option>
-            <option value="FRIDAY">П’ятниця</option>
-            <option value="SATURDAY">Субота</option>
-        </select>
+<div class="content">
+    <div th:if="${schedule}" class="schedule-table">
+        <table>
+            <thead>
+            <tr>
+                <th>Час</th>
+                <th>День тижня</th>
+                <th>Предмет</th>
+                <th>Клас</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${schedule}">
+                <td th:text="${item.lessonTime.time}"></td>
+                <td th:text="${item.dayOfWeek.name}"></td>
+                <td th:text="${item.teacherSubject.subject.name}">
+                <td th:text="${item.classes.name}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-
-    <button type="submit">Показати розклад</button>
-</form>
-
-<div th:if="${schedule}">
-    <table>
-        <thead>
-        <tr>
-            <th>Час</th>
-            <th>Предмет</th>
-            <th>Клас</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${schedule}">
-            <td th:text="${item.lessonTime}"></td>
-            <td th:text="${item.subject}"></td>
-            <td th:text="${item.class.name}"></td>
-        </tr>
-        </tbody>
-    </table>
 </div>
 </body>
 </html>

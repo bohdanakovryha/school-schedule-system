@@ -7,13 +7,13 @@ import com.example.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("teachers")
+@RequestMapping("/teachers")
+//@RequestMapping("/schedule")
 public class TeacherController {
     @Autowired
     private TeacherService teacherService;
@@ -22,7 +22,6 @@ public class TeacherController {
     public String teacher(Model model) {
         List<Teacher> allTeachers = teacherService.getTeachers();
         model.addAttribute("teachers", allTeachers);
-       // model.getAttribute();
-        return "teachers.html";
+        return "teachers";
     }
 }

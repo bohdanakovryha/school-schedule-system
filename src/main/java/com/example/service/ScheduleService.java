@@ -19,9 +19,9 @@ public class ScheduleService {
     private ScheduleRepository scheduleRepository;
 
     // Метод для отримання розкладу викладача по днях тижня
-    public List<Schedule> getScheduleByTeacherAndDayOfWeek(Long teacherId, String dayOfWeek) {
-        return ScheduleRepository.findByTeacherIdAndDayOfWeek(teacherId, dayOfWeek);
-    }
+    /*public List<Schedule> getScheduleByTeacherAndDayOfWeek(Long teacherId, String dayOfWeek) {
+        return ScheduleRepository.findByStudentIdAndDayOfWeek(teacherId, dayOfWeek);
+    }*/
 
     // Метод для отримання всіх викладачів
     public List<Schedule> getAllSchedules() {
