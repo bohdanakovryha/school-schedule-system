@@ -33,7 +33,6 @@ public class Schedule {
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
-    // Геттери та сеттери
     public Teacher getTeacher() {
         return teacher;
     }

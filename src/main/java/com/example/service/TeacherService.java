@@ -6,8 +6,8 @@ import com.example.model.Teacher;
 import java.util.List;
 
 public interface TeacherService {
-    public List<Teacher> getTeachers();
+    List<Teacher> getTeachers();
 
-    /*//new
-    List<Schedule> getScheduleByTeacher(Long teacherId);*/
+    //new
+    Teacher getTeacherById(Long teacherId);
 }

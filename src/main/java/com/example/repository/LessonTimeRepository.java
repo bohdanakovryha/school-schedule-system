@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface LessonTimeRepository extends JpaRepository<LessonTime, Long> {
-    // додаткові методи, якщо вони потрібні
 }

@@ -1,6 +1,10 @@
 package com.example.controller;
 import com.example.model.*;
 import com.example.repository.*;
+import com.example.service.ClassService;
+import com.example.service.DayOfWeekService;
+import com.example.service.TeacherService;
+import com.example.service.TeacherSubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +21,12 @@ public class ScheduleController {
     TeacherRepository teacherRepository;
     @Autowired
     ScheduleRepository scheduleRepository;
-
     @Autowired
     TeacherSubjectRepository teacherSubjectRepository;
-
     @Autowired
     ClassesRepository classesRepository;
-
     @Autowired
     private LessonTimeRepository lessonTimeRepository;
-
     @Autowired
     private DayOfWeekRepository dayOfWeekRepository;
 
@@ -36,16 +36,25 @@ public class ScheduleController {
     @Autowired
     private ClassesController classesController;
 
- /*   List<String> checkLessonNumber(List<Schedule> lesson) {
-        List<String> result = new ArrayList<>(Arrays.asList(" ", " ", " ", " ", " ", " ", " "));
+    @Autowired
+    private TeacherService teacherService;
+    @Autowired
+    private TeacherSubjectService teacherSubjectService;
+    @Autowired
+    private DayOfWeekService dayOfWeekService;
+    @Autowired
+    private ClassService classService;
 
-        for (Schedule schedule : lesson) {
-//            result.get(schedule.getLessonNumber() + 1)
-            result.set(schedule.getLessonNumber() - 1, schedule.getTeacherSubject().getSubject().getName());
-        }
+    /*   List<String> checkLessonNumber(List<Schedule> lesson) {
+           List<String> result = new ArrayList<>(Arrays.asList(" ", " ", " ", " ", " ", " ", " "));
 
-        return result;
-    }*/
+           for (Schedule schedule : lesson) {
+   //            result.get(schedule.getLessonNumber() + 1)
+               result.set(schedule.getLessonNumber() - 1, schedule.getTeacherSubject().getSubject().getName());
+           }
+
+           return result;
+       }*/
  List<String> checkLessonNumber(List<Schedule> lessons) {
      List<String> result = new ArrayList<>(Arrays.asList(" ", " ", " ", " ", " ", " ", " "));
 
@@ -61,15 +70,14 @@ public class ScheduleController {
      return result;
  }
 
-
     //Нова змінена логіка для виведення розкладу викладачів
     @GetMapping("/teacher")
     public String getScheduleByTeacher(Teacher teacher, Model model) {
-        Teacher teacherFromDB = teacherRepository.findById(teacher.getId()).get();
+        Teacher teacherFromDB = teacherService.getTeacherById(teacher.getId());
         model.addAttribute("selectedTeacherId", teacher.getId());
 
-        List<TeacherSubject> teacherSubjectList = teacherSubjectRepository.findAllByTeacher(teacherFromDB);
-        List<DayOfWeek> dayOfWeekList = dayOfWeekRepository.findAll();
+        List<TeacherSubject> teacherSubjectList = teacherSubjectService.findAllByTeacher(teacherFromDB);
+        List<DayOfWeek> dayOfWeekList = dayOfWeekService.findAllDayOfWeek();
 
         List<String> scheduleMonday = new ArrayList<>(Collections.nCopies(7, "")); // 7 уроків на день
         List<String> scheduleTuesday = new ArrayList<>(Collections.nCopies(7, ""));
@@ -202,15 +210,15 @@ public class ScheduleController {
 @GetMapping("/classes")
 public String getScheduleByClass(Classes classes, Model model) {
     // Отримуємо клас із бази даних
-    Classes classesFromDB = classesRepository.findById(classes.getId()).get();
+    Classes classesFromDB = classService.findClassById(classes.getId());
     model.addAttribute("selectedClassesId", classes.getId());
 
 
     // Отримуємо список розкладу для конкретного класу
-    List<Schedule> testSchedule = scheduleRepository.findSchedulesByClasses(classesFromDB);
+  /*  List<Schedule> testSchedule = scheduleRepository.findSchedulesByClasses(classesFromDB);*/
 
     // Отримуємо список днів тижня
-    List<DayOfWeek> dayOfWeekList = dayOfWeekRepository.findAll();
+    List<DayOfWeek> dayOfWeekList = dayOfWeekService.findAllDayOfWeek();
 
     // Ініціалізуємо списки розкладів для кожного дня тижня
     List<String> scheduleMonday = new ArrayList<>();
@@ -238,10 +246,10 @@ public String getScheduleByClass(Classes classes, Model model) {
         }
     }
 
-    // Отримуємо весь розклад для класу
+    // Отримуємо весь розклад для класу ПОТІМ, ДЕ РЕПОЗИТОРІЇ
     List<Schedule> result = scheduleRepository.findSchedulesByClasses(classesFromDB);
 
-    // Отримуємо час уроків
+    // Отримуємо час уроків //ПОТІМ
     List<LessonTime> lessonTimeFromDB = lessonTimeRepository.findAll();
 
     // Додаємо дані до моделі
