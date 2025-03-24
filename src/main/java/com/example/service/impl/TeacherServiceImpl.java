@@ -24,4 +24,5 @@ public class TeacherServiceImpl implements TeacherService {
     public Teacher getTeacherById(Long teacherId) {
         return teacherRepository.findById(teacherId).orElseThrow(() -> new RuntimeException("teacher not found"));
     }
+
 }

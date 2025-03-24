@@ -17,4 +17,5 @@ public class TeacherSubjectServiceImpl implements TeacherSubjectService {
     public List<TeacherSubject> findAllByTeacher(Teacher teacher) {
         return teacherSubjectRepository.findAllByTeacher(teacher);
     }
+    //List<TeacherSubject> teacherSubjectList = teacherSubjectService.findAllByTeacher(teacherFromDB);
 }
