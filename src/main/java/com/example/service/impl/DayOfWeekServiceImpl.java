@@ -18,4 +18,5 @@ public class DayOfWeekServiceImpl implements DayOfWeekService {
     public List<DayOfWeek> findAllDayOfWeek() {
         return dayOfWeekRepository.findAll();
     }
+
 }

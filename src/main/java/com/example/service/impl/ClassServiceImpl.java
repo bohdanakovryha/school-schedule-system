@@ -22,8 +22,6 @@ public class ClassServiceImpl implements ClassService {
     public Classes findClassById(Long classId) {
         return classesRepository.findById(classId).orElseThrow(() -> new RuntimeException("class not found"));
     }
-
-
 }
 
 

@@ -8,6 +8,5 @@ import java.util.List;
 public interface TeacherService {
     List<Teacher> getTeachers();
 
-    //new
     Teacher getTeacherById(Long teacherId);
 }

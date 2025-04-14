@@ -21,7 +21,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
-    // Метод для отримання всіх викладачів
     public List<Schedule> getAllSchedules() {
         return scheduleRepository.findAll();
     }
@@ -29,7 +28,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<Schedule> findSchedulesByTeacherSubjectAndDayOfWeek(TeacherSubject teacherSubject, DayOfWeek dayOfWeek) {
         return scheduleRepository.findSchedulesByTeacherSubjectAndDayOfWeek(teacherSubject, dayOfWeek);
     }
-//scheduleRepository.findSchedulesByTeacherSubjectAndDayOfWeek(teacherSubject, dayOfWeek);
+
     @Override
     public List<Schedule> findSchedulesByTeacherSubject(TeacherSubject teacherSubject) {
         return scheduleRepository.findSchedulesByTeacherSubject(teacherSubject);
@@ -40,11 +39,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleRepository.findSchedulesByClassesAndDayOfWeek(classes, dayOfWeek);
     }
 
-    //List<Schedule> result = scheduleRepository.findSchedulesByClasses(classesFromDB);
     @Override
     public List<Schedule> findSchedulesByClasses(Classes classes) {
         return scheduleRepository.findSchedulesByClasses(classes);
     }
-//List<Schedule> findSchedulesByTeacherSubject(TeacherSubject teacherSubject);
-
 }
