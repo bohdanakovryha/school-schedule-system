@@ -57,7 +57,7 @@ INSERT INTO TEACHER (id, name) VALUES (1, 'Власенко Людмила Ві�
 INSERT INTO TEACHER (id, name) VALUES (2, 'Шевченко Тетяна Михайлівна');
 INSERT INTO TEACHER (id, name) VALUES (3, 'Власенко Людмила Дмитрівна');
 INSERT INTO TEACHER (id, name) VALUES (4, 'Кондаренко Ірина Михайлівна');
-INSERT INTO TEACHER (id, name) VALUES (5, 'Гуленко Володимир Сергійович');
+INSERT INTO TEACHER (id, name) VALUES (5, 'Тесленко Світлана Сергіївна');
 INSERT INTO TEACHER (id, name) VALUES (6, 'Олефіренко Ірина Леонідівна');
 INSERT INTO TEACHER (id, name) VALUES (7, 'Куцукінь Володимир Микоолайович');
 INSERT INTO TEACHER (id, name) VALUES (8, 'Гелевера Анатолій Андрійович');
