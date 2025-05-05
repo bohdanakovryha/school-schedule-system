@@ -15,19 +15,6 @@ import java.util.*;
 @RequestMapping("/schedule")
 public class ScheduleController {
     @Autowired
-    TeacherRepository teacherRepository;
-    @Autowired
-    ScheduleRepository scheduleRepository;
-    @Autowired
-    TeacherSubjectRepository teacherSubjectRepository;
-    @Autowired
-    ClassesRepository classesRepository;
-    @Autowired
-    private LessonTimeRepository lessonTimeRepository;
-    @Autowired
-    private DayOfWeekRepository dayOfWeekRepository;
-
-    @Autowired
     private TeacherController teacherController;
     @Autowired
     private ClassesController classesController;
@@ -77,11 +64,9 @@ public class ScheduleController {
         for (TeacherSubject teacherSubject : teacherSubjectList) {
             for (DayOfWeek dayOfWeek : dayOfWeekList) {
                 List<Schedule> schedulesForDay = scheduleService.findSchedulesByTeacherSubjectAndDayOfWeek(teacherSubject, dayOfWeek);
-                //List<Schedule> schedulesForDay = scheduleRepository.findSchedulesByTeacherSubjectAndDayOfWeek(teacherSubject, dayOfWeek);
 
                 for (Schedule schedule : schedulesForDay) {
                     int lessonIndex = schedule.getLessonNumber() - 1;
-                    //String lessonName = schedule.getTeacherSubject().getSubject().getName();
                     String lessonName = schedule.getTeacherSubject().getSubject().getName() +
                             " (" + schedule.getClasses().getName() + " клас)";
 
@@ -101,8 +86,8 @@ public class ScheduleController {
         }
 
         List<Schedule> result = new ArrayList<>();
+
         for (TeacherSubject teacherSubject : teacherSubjectList) {
-            //result.addAll(scheduleRepository.findSchedulesByTeacherSubject(teacherSubject));
             result.addAll(scheduleService.findSchedulesByTeacherSubject(teacherSubject));
         }
 
@@ -118,61 +103,44 @@ public class ScheduleController {
 
         teacherController.teacher(model);
 
-        return "teachers.html";
+        return "teachers";
     }
 
     @GetMapping("/classes")
     public String getScheduleByClass(Classes classes, Model model) {
-        // Отримуємо клас із бази даних
         Classes classesFromDB = classService.findClassById(classes.getId());
         model.addAttribute("selectedClassesId", classes.getId());
 
-
-        // Отримуємо список розкладу для конкретного класу
-      /*  List<Schedule> testSchedule = scheduleRepository.findSchedulesByClasses(classesFromDB);*/
-
-        // Отримуємо список днів тижня
         List<DayOfWeek> dayOfWeekList = dayOfWeekService.findAllDayOfWeek();
 
-        // Ініціалізуємо списки розкладів для кожного дня тижня
         List<String> scheduleMonday = new ArrayList<>();
         List<String> scheduleTuesday = new ArrayList<>();
         List<String> scheduleWednesday = new ArrayList<>();
         List<String> scheduleThursday = new ArrayList<>();
         List<String> scheduleFriday = new ArrayList<>();
 
-        // Проходимо по днях тижня
         for (DayOfWeek dayOfWeek : dayOfWeekList) {
             if (dayOfWeek.getName().equals("Понеділок")) {
-                //scheduleMonday.addAll(checkLessonNumber(scheduleRepository.findSchedulesByClassesAndDayOfWeek(classesFromDB, dayOfWeek)));
                 scheduleMonday.addAll(checkLessonNumber(scheduleService.findSchedulesByClassesAndDayOfWeek(classesFromDB, dayOfWeek)));
             }
             if (dayOfWeek.getName().equals("Вівторок")) {
-                //.addAll(checkLessonNumber(scheduleRepository.findSchedulesByClassesAndDayOfWeek(classesFromDB, dayOfWeek)));
                 scheduleTuesday.addAll(checkLessonNumber(scheduleService.findSchedulesByClassesAndDayOfWeek(classesFromDB, dayOfWeek)));
             }
             if (dayOfWeek.getName().equals("Середа")) {
-               // scheduleWednesday.addAll(checkLessonNumber(scheduleRepository.findSchedulesByClassesAndDayOfWeek(classesFromDB, dayOfWeek)));
                 scheduleWednesday.addAll(checkLessonNumber(scheduleService.findSchedulesByClassesAndDayOfWeek(classesFromDB, dayOfWeek)));
             }
             if (dayOfWeek.getName().equals("Четвер")) {
-               // scheduleThursday.addAll(checkLessonNumber(scheduleRepository.findSchedulesByClassesAndDayOfWeek(classesFromDB, dayOfWeek)));
                 scheduleThursday.addAll(checkLessonNumber(scheduleService.findSchedulesByClassesAndDayOfWeek(classesFromDB, dayOfWeek)));
             }
             if (dayOfWeek.getName().equals("П’ятниця")) {
-                //scheduleFriday.addAll(checkLessonNumber(scheduleRepository.findSchedulesByClassesAndDayOfWeek(classesFromDB, dayOfWeek)));
                 scheduleFriday.addAll(checkLessonNumber(scheduleService.findSchedulesByClassesAndDayOfWeek(classesFromDB, dayOfWeek)));
             }
         }
 
-        // Отримуємо весь розклад для класу ПОТІМ, ДЕ РЕПОЗИТОРІЇ
-        //List<Schedule> result = scheduleRepository.findSchedulesByClasses(classesFromDB);
         List<Schedule> result = scheduleService.findSchedulesByClasses(classesFromDB);
 
-        // Отримуємо час уроків //ПОТІМ
         List<LessonTime> lessonTimeFromDB = lessonTimeService.findAll();
 
-        // Додаємо дані до моделі
         model.addAttribute("lessonTime", lessonTimeFromDB);
         model.addAttribute("schedule", result);
         model.addAttribute("scheduleMonday", scheduleMonday);
@@ -183,6 +151,6 @@ public class ScheduleController {
 
         classesController.getClasses(model);
 
-        return "classes.html";
+        return "classes";
     }
 }

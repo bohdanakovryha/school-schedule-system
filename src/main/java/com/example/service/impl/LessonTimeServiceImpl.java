@@ -14,7 +14,6 @@ public class LessonTimeServiceImpl implements LessonTimeService {
     @Autowired
     private LessonTimeRepository lessonTimeRepository;
 
-    //List<LessonTime> lessonTimeFromDB = lessonTimeRepository.findAll();
     @Override
     public List<LessonTime> findAll() {
         return lessonTimeRepository.findAll();

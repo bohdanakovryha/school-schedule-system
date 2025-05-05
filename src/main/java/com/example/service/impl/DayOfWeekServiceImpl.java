@@ -13,7 +13,6 @@ public class DayOfWeekServiceImpl implements DayOfWeekService {
     @Autowired
     private DayOfWeekRepository dayOfWeekRepository;
 
-
     @Override
     public List<DayOfWeek> findAllDayOfWeek() {
         return dayOfWeekRepository.findAll();

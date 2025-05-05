@@ -53,18 +53,18 @@ INSERT INTO SUBJECT (id, name) VALUES (24, 'Громадянська освіт�
 INSERT INTO SUBJECT (id, name) VALUES (25, 'Математика');
 INSERT INTO SUBJECT (id, name) VALUES (26, 'Природознавство');
 
-INSERT INTO TEACHER (id, name) VALUES (1, 'Коврига Леся Вікторівна');
+INSERT INTO TEACHER (id, name) VALUES (1, 'Власенко Людмила Вікторівна');
 INSERT INTO TEACHER (id, name) VALUES (2, 'Шевченко Тетяна Михайлівна');
 INSERT INTO TEACHER (id, name) VALUES (3, 'Власенко Людмила Дмитрівна');
-INSERT INTO TEACHER (id, name) VALUES (4, 'Гуленко Сергій Володимирович');
-INSERT INTO TEACHER (id, name) VALUES (5, 'Гуленко Володимир Сергійович');
+INSERT INTO TEACHER (id, name) VALUES (4, 'Кондаренко Ірина Михайлівна');
+INSERT INTO TEACHER (id, name) VALUES (5, 'Тесленко Світлана Сергіївна');
 INSERT INTO TEACHER (id, name) VALUES (6, 'Олефіренко Ірина Леонідівна');
 INSERT INTO TEACHER (id, name) VALUES (7, 'Куцукінь Володимир Микоолайович');
 INSERT INTO TEACHER (id, name) VALUES (8, 'Гелевера Анатолій Андрійович');
-INSERT INTO TEACHER (id, name) VALUES (9, 'Гуленко Лідія Григорівна');
+INSERT INTO TEACHER (id, name) VALUES (9, 'Олефіренко Анатолій Сергійович');
 INSERT INTO TEACHER (id, name) VALUES (10, 'Власенко Світлана Сергіївна');
 INSERT INTO TEACHER (id, name) VALUES (11, 'Тесленко Людмила Миколаївна');
-INSERT INTO TEACHER (id, name) VALUES (12, 'Коврига Олександр Миколайович');
+INSERT INTO TEACHER (id, name) VALUES (12, 'Кондаренко Олександр Андрійович');
 INSERT INTO TEACHER (id, name) VALUES (13, 'Демидюк Сергій Володимирович');
 
 INSERT INTO TEACHER_SUBJECT (id, teacher_id, subject_id) VALUES (1, 1, 1);

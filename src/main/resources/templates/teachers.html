@@ -137,10 +137,6 @@
         <input type="submit" value="Показати розклад" class="form-submit" />
     </form>
 </div>
-<!-- - <tr> - рядок таблиці.
- <th> - заголовок таблиці.
-<td> - колонка з даними таблиці-->
-
 <div class="content">
     <div th:if="${schedule}" class="schedule-table">
         <table>
@@ -155,9 +151,7 @@
             </tr>
             </thead>
             <tbody>
-            <!-- Створюємо рядки для кожного уроку -->
             <tr th:each="lesson, lessonStat : ${lessonTime}">
-                <!-- Додаємо статичну колонку з номерами -->
                 <td>
                     <span th:text="${lessonStat.index + 1} + ' урок'"></span><br/>
                     <span th:text="${lesson.time}"></span>
@@ -177,29 +171,6 @@
                 <td th:if="${lessonStat.index < scheduleFriday.size()}"
                     th:text="${scheduleFriday[lessonStat.index]}">
                 </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div class="content">
-    <div th:if="${schedule}" class="schedule-table">
-        <table>
-            <thead>
-            <tr>
-                <th>Час</th>
-                <th>День тижня</th>
-                <th>Предмет</th>
-                <th>Клас</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="item : ${schedule}">
-                <td th:text="${item.lessonTime.time}"></td>
-                <td th:text="${item.dayOfWeek.name}"></td>
-                <td th:text="${item.teacherSubject.subject.name}">
-                <td th:text="${item.classes.name}"></td>
             </tr>
             </tbody>
         </table>

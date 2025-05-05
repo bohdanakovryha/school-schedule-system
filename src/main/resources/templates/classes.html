@@ -134,34 +134,7 @@
         </select>
         <button class="form-submit">Підтвердити</button>
     </form>
-
 </div>
-<!--<div class="content">
-    <div th:if="${schedule}" class="schedule-table">
-        <table>
-            <thead>
-            <tr>
-                <th>Номер уроку</th>
-                <th>Клас</th>
-                <th>Предмет</th>
-                <th>Викладач</th>
-                <th>День тижня</th>
-                <th>Час уроку</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="item : ${schedule}">
-                <td th:text="${item.lessonNumber}"></td>
-                <td th:text="${item.classes.name}"></td>
-                <td th:text="${item.teacherSubject.subject.name}"></td>
-                <td th:text="${item.teacherSubject.teacher.name}"></td>
-                <td th:text="${item.dayOfWeek.name}"></td>
-                <td th:text="${item.lessonTime.time}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>-->
 <div class="content">
     <div th:if="${schedule}" class="schedule-table">
         <table>
@@ -176,9 +149,7 @@
             </tr>
             </thead>
             <tbody>
-            <!-- Створюємо рядки для кожного уроку -->
             <tr th:each="lesson, lessonStat : ${lessonTime}">
-                <!-- Додаємо статичну колонку з номерами -->
                 <td>
                     <span th:text="${lessonStat.index + 1} + ' урок'"></span><br/>
                     <span th:text="${lesson.time}"></span>
@@ -203,6 +174,5 @@
         </table>
     </div>
 </div>
-
 </body>
 </html>

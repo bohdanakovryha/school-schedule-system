@@ -5,5 +5,4 @@ import com.example.model.DayOfWeek;
 
 public interface DayOfWeekRepository extends JpaRepository<DayOfWeek, Long> {
 
-
 }

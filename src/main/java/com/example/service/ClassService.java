@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface ClassService {
     List<Classes> getClasses();
-
     Classes findClassById(Long classId);
 }

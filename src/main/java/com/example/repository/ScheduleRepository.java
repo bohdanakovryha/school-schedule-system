@@ -17,8 +17,4 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     List<Schedule> findSchedulesByClassesAndDayOfWeek(Classes classes, DayOfWeek dayOfWeek);
 
-
-
-
-
 }
