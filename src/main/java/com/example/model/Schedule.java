@@ -7,10 +7,12 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Table(name = "SCHEDULE")
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "lesson_number")
     private int lessonNumber;
 
     @ManyToOne
@@ -29,16 +31,21 @@ public class Schedule {
     @JoinColumn(name = "lesson_time_id")
     private LessonTime lessonTime;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "teacher_id")
-    private Teacher teacher;
+    private Teacher teacher;*/
 
+    // Teacher is associated via TeacherSubject, not directly
     public Teacher getTeacher() {
+        return teacherSubject != null ? teacherSubject.getTeacher() : null;
+    }
+
+   /* public Teacher getTeacher() {
         return teacher;
     }
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
-    }
+    }*/
 
 }

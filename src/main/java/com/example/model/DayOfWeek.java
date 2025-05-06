@@ -9,6 +9,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Table(name = "DAY_OF_WEEK")
 public class DayOfWeek {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

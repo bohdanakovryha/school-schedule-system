@@ -1,19 +1,37 @@
-version: '3'
 services:
-  schoolSchedule:
-    image: your-image-name
-    ports:
-      - "8080:8080"
-    volumes:
-      - h2-data:/data/db
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-school
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:h2:/data/db/testdb;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE
-    restart: always
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: school_schedule
+      MYSQL_USER: schooladmin
+      MYSQL_PASSWORD: schoolpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
     networks:
       - school-network
+
+  schoolschedule:
+    build: .
+    container_name: school-schedule-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-school:3306/school_schedule
+      SPRING_DATASOURCE_USERNAME: schooladmin
+      SPRING_DATASOURCE_PASSWORD: schoolpassword
+    networks:
+      - school-network
+
 volumes:
-  h2-data:
-    driver: local
+  mysql-data:
+
 networks:
   school-network:
     driver: bridge
+

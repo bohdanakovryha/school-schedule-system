@@ -9,6 +9,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Table(name = "LESSON_TIME")
 public class LessonTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

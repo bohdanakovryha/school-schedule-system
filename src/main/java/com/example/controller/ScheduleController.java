@@ -2,7 +2,9 @@ package com.example.controller;
 import com.example.model.*;
 import com.example.repository.*;
 import com.example.service.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/schedule")
+@SecurityRequirement(name = "oauth2Scheme")
 public class ScheduleController {
     @Autowired
     private TeacherController teacherController;
@@ -48,6 +51,7 @@ public class ScheduleController {
      }
 
     @GetMapping("/teacher")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getScheduleByTeacher(Teacher teacher, Model model) {
         Teacher teacherFromDB = teacherService.getTeacherById(teacher.getId());
         model.addAttribute("selectedTeacherId", teacher.getId());
@@ -107,6 +111,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/classes")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getScheduleByClass(Classes classes, Model model) {
         Classes classesFromDB = classService.findClassById(classes.getId());
         model.addAttribute("selectedClassesId", classes.getId());

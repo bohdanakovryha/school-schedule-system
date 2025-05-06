@@ -12,6 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "TEACHER")
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
