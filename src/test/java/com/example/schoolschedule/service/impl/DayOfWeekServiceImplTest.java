@@ -26,7 +26,8 @@ class DayOfWeekServiceImplTest {
     @BeforeEach
     void setUp() {
         sampleDay = new DayOfWeek();
-        sampleDay.setId(1L);
+        sampleDay
+                .setId(1);
         sampleDay.setName("Понеділок");
     }
 

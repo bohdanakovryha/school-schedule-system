@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адмін панель</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ececec;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .content {
+            padding: 20px;
+            background-color: #8479b9;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .schedule-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .classes-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-label {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .form-select, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-submit {
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #241445;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-submit:hover {
+            background-color: rgba(100, 2, 255, 0.8);
+        }
+
+        .entity-list {
+            margin-top: 20px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .entity-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .entity-list li {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .dropdown-toggle {
+            background: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            color: #241445;
+        }
+
+        .arrow {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .arrow.up {
+            transform: rotate(180deg);
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .back-button {
+            display: inline-block;
+            font-size: 18px;
+            font-weight: bold;
+            color: #241445;
+            text-decoration: none;
+            margin-bottom: 20px;
+            margin-left: 10px;
+            background-color: #ffffff;
+            border: 2px solid #241445;
+            border-radius: 5px;
+            padding: 5px 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #dcd3f2;
+        }
+
+    </style>
+</head>
+<body>
+<a href="/" class="back-button">
+    ← Назад
+</a>
+<div class="content">
+    <h1 class="schedule-title" style="color: #241445">Адмін панель</h1>
+
+    <div th:if="${error}">
+        <p style="color:red;" th:text="${error}"></p>
+    </div>
+</div>
+<!-- Teacher Entity -->
+<div class="content">
+    <h2 class="schedule-title">Викладачі</h2>
+
+    <button class="dropdown-toggle" type="button" onclick="toggleDropdown('teacherBlock', this)">
+        Редагувати викладачів
+        <span class="arrow">▼</span>
+    </button>
+
+    <div id="teacherBlock" style="display: none; margin-top: 10px;">
+        <form class="classes-form" th:action="@{/adminPanel/teacher/add}" method="post">
+            <input type="text" name="name" placeholder="Ім’я викладача"/>
+            <button class="form-submit" type="submit">Додати</button>
+        </form>
+
+        <button class="dropdown-toggle" type="button" onclick="toggleDropdown('teacherDropdown', this)">
+            Показати/Приховати викладачів
+            <span class="arrow">▼</span>
+        </button>
+
+        <div id="teacherDropdown" class="entity-list" style="display: none;">
+            <ul>
+                <li th:each="teacher : ${teachers}">
+                    <span th:text="${teacher.name}"></span>
+                    <form th:action="@{/adminPanel/teacher/delete/{id}(id=${teacher.id})}" method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button class="form-submit" type="submit">Видалити</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Subject Entity -->
+<div class="content">
+    <h2 class="schedule-title">Предмети</h2>
+
+    <button class="dropdown-toggle" type="button" onclick="toggleDropdown('subjectBlock', this)">
+        Редагувати предмети
+        <span class="arrow">▼</span>
+    </button>
+
+    <div id="subjectBlock" style="display: none; margin-top: 10px;">
+        <form class="classes-form" th:action="@{/adminPanel/subject/add}" method="post">
+            <input type="text" name="name" placeholder="Назва предмета"/>
+            <button class="form-submit" type="submit">Додати</button>
+        </form>
+
+        <button class="dropdown-toggle" type="button" onclick="toggleDropdown('subjectDropdown', this)">
+            Показати/Приховати предмети
+            <span class="arrow">▼</span>
+        </button>
+
+        <div id="subjectDropdown" class="entity-list" style="display: none;">
+            <ul>
+                <li th:each="subject : ${subjects}">
+                    <span th:text="${subject.name}"></span>
+                    <form th:action="@{/adminPanel/subject/delete/{id}(id=${subject.id})}" method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button class="form-submit" type="submit">Видалити</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Class Entity -->
+<div class="content">
+    <h2 class="schedule-title">Класи</h2>
+
+    <button class="dropdown-toggle" type="button" onclick="toggleDropdown('classBlock', this)">
+        Редагувати класи
+        <span class="arrow">▼</span>
+    </button>
+
+    <div id="classBlock" style="display: none; margin-top: 10px;">
+        <form class="classes-form" th:action="@{/adminPanel/class/add}" method="post">
+            <input type="text" name="name" placeholder="Назва класу"/>
+            <button class="form-submit" type="submit">Додати</button>
+        </form>
+
+        <button class="dropdown-toggle" type="button" onclick="toggleDropdown('classDropdown', this)">
+            Показати/Приховати класи
+            <span class="arrow">▼</span>
+        </button>
+
+        <div id="classDropdown" class="entity-list" style="display: none;">
+            <ul>
+                <li th:each="class : ${classes}">
+                    <span th:text="${class.name}"></span>
+                    <form th:action="@{/adminPanel/class/delete/{id}(id=${class.id})}" method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button class="form-submit" type="submit">Видалити</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- LessonTime Entity -->
+<div class="content">
+    <h2 class="schedule-title">Час уроків</h2>
+
+    <button class="dropdown-toggle" type="button" onclick="toggleDropdown('lessonTimeBlock', this)">
+        Редагувати час уроків
+        <span class="arrow">▼</span>
+    </button>
+
+    <div id="lessonTimeBlock" style="display: none; margin-top: 10px;">
+        <form class="classes-form" th:action="@{/adminPanel/lessonTime/add}" method="post">
+            <input type="text" name="time" placeholder="Наприклад: 08:30 - 09:15"/>
+            <button class="form-submit" type="submit">Додати</button>
+        </form>
+
+        <button class="dropdown-toggle" type="button" onclick="toggleDropdown('lessonTimeDropdown', this)">
+            Показати/Приховати час уроків
+            <span class="arrow">▼</span>
+        </button>
+
+        <div id="lessonTimeDropdown" class="entity-list" style="display: none;">
+            <ul>
+                <li th:each="l : ${lessonTime}">
+                <span th:text="${l.time}"></span>
+                    <form th:action="@{/adminPanel/lessonTime/delete/{id}(id=${l.id})}" method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button class="form-submit" type="submit">Видалити</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- DayOfWeek Entity -->
+<div class="content">
+    <h2 class="schedule-title">Дні тижня</h2>
+
+    <button class="dropdown-toggle" type="button" onclick="toggleDropdown('DayOfWeekBlock', this)">
+        Редагувати дні тижня
+        <span class="arrow">▼</span>
+    </button>
+
+    <div id="DayOfWeekBlock" style="display: none; margin-top: 10px;">
+        <form class="classes-form" th:action="@{/adminPanel/day/add}" method="post">
+            <input type="text" name="name" placeholder="Назва дня (наприклад, Понеділок)"/>
+            <button class="form-submit" type="submit">Додати</button>
+        </form>
+
+        <button class="dropdown-toggle" type="button" onclick="toggleDropdown('DayOfWeekDropdown', this)">
+            Показати/Приховати дні тижня
+            <span class="arrow">▼</span>
+        </button>
+
+        <div id="DayOfWeekDropdown" class="entity-list" style="display: none;">
+            <ul>
+                <li th:each="d : ${dayOfWeek}">
+                    <span th:text="${d.name}"></span>
+                    <form th:action="@{/adminPanel/day/delete/{id}(id=${d.id})}" method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button class="form-submit" type="submit">Видалити</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Teacher_Subject Entity -->
+<div class="content">
+    <h2 class="schedule-title">Викладач-Предмет</h2>
+
+    <button class="dropdown-toggle" type="button" onclick="toggleDropdown('TeacherSubjectBlock', this)">
+        Редагувати зв'язок Викладач-Предмет
+        <span class="arrow">▼</span>
+    </button>
+
+    <div id="TeacherSubjectBlock" style="display: none; margin-top: 10px;">
+        <form class="classes-form" th:action="@{/adminPanel/teacherSubject/add}" method="post">
+            <label class="form-label">Викладач:</label>
+            <select name="teacherId" class="form-select">
+                <option th:each="t : ${teachers}" th:value="${t.id}" th:text="${t.name}"></option>
+            </select>
+
+            <label class="form-label">Предмет:</label>
+            <select name="subjectId" class="form-select">
+                <option th:each="s : ${subjects}" th:value="${s.id}" th:text="${s.name}"></option>
+            </select>
+
+            <button class="form-submit" type="submit">Додати</button>
+        </form>
+    </div>
+</div>
+
+<!-- Schedule Entity -->
+<div class="content">
+    <h2 class="schedule-title">Розклад</h2>
+
+    <button class="dropdown-toggle" type="button" onclick="toggleDropdown('ScheduleBlock', this)">
+        Редагувати розклад
+        <span class="arrow">▼</span>
+    </button>
+
+    <div id="ScheduleBlock" style="display: none; margin-top: 10px;">
+
+        <form class="classes-form" th:action="@{/adminPanel/schedule/add}" method="post">
+            <input type="number" name="lessonNumber" placeholder="Номер уроку" required class="form-control" />
+
+            <select name="classes" class="form-select" required>
+                <option value="" disabled selected>Оберіть клас</option>
+                <option th:each="c : ${classes}" th:value="${c.id}" th:text="${c.name}"></option>
+            </select>
+
+            <select name="teacherSubject" class="form-select" required>
+                <option value="" disabled selected>Оберіть викладача + предмет</option>
+                <option th:each="ts : ${teacherSubject}" th:value="${ts.id}"
+                        th:text="${ts.teacher.name + ' — ' + ts.subject.name}"></option>
+            </select>
+
+            <select name="dayOfWeek" class="form-select" required>
+                <option value="" disabled selected>Оберіть день тижня</option>
+                <option th:each="d : ${dayOfWeek}" th:value="${d.id}" th:text="${d.name}"></option>
+            </select>
+
+            <select name="lessonTime" class="form-select" required>
+                <option value="" disabled selected>Оберіть час уроку</option>
+                <option th:each="l : ${lessonTime}" th:value="${l.id}" th:text="${l.time}"></option>
+            </select>
+
+            <button class="form-submit" type="submit">Додати</button>
+        </form>
+
+        <button class="dropdown-toggle" type="button" onclick="toggleDropdown('ScheduleDropdown', this)">
+            Показати/Приховати розклад
+            <span class="arrow">▼</span>
+        </button>
+
+        <div id="ScheduleDropdown" class="entity-list" style="display: none;">
+            <ul>
+                <li th:each="s : ${schedule}">
+                    <span th:text="${s.lessonNumber + '. ' + s.classes.name + ', ' + s.teacherSubject.teacher.name + ' — ' + s.teacherSubject.subject.name + ', ' + s.dayOfWeek.name + ', ' + s.lessonTime.time}"></span>
+                    <form th:action="@{/adminPanel/schedule/delete/{id}(id=${s.id})}" method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button class="form-submit" type="submit">Видалити</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        function toggleDropdown(id, button) {
+            const dropdown = document.getElementById(id);
+            const arrow = button.querySelector(".arrow");
+
+            const isHidden = dropdown.style.display === "none" || dropdown.style.display === "";
+
+            dropdown.style.display = isHidden ? "block" : "none";
+            arrow.classList.toggle("up", isHidden);
+        }
+        window.toggleDropdown = toggleDropdown;
+    });
+</script>
+</body>
+</html>

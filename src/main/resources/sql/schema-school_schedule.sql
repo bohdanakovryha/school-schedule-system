@@ -1,25 +1,26 @@
 CREATE TABLE IF NOT EXISTS CLASSES (
-                         id INT PRIMARY KEY,
-                         name VARCHAR(255) NOT NULL
-);
+                                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                       name VARCHAR(255) NOT NULL
+    );
 
 CREATE TABLE IF NOT EXISTS DAY_OF_WEEK (
-                             id INT PRIMARY KEY,
+                             id BIGINT AUTO_INCREMENT PRIMARY KEY,
                              name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS LESSON_TIME (
-                             id INT PRIMARY KEY,
+                             id BIGINT AUTO_INCREMENT PRIMARY KEY,
                              time VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS SUBJECT (
-                         id INT PRIMARY KEY,
-                         name VARCHAR(255) NOT NULL
-);
+                                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                       name VARCHAR(255) NOT NULL
+    );
+
 
 CREATE TABLE IF NOT EXISTS TEACHER (
-                         id INT PRIMARY KEY,
+                         id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                          name VARCHAR(255) NOT NULL
 );
 
@@ -43,3 +44,4 @@ CREATE TABLE IF NOT EXISTS SCHEDULE (
     FOREIGN KEY (day_of_week_id) REFERENCES DAY_OF_WEEK(id),
     FOREIGN KEY (lesson_time_id) REFERENCES LESSON_TIME(id)
     );
+

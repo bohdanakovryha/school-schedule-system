@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang=”en” xmlns:th=”http://www.thymeleaf.org”>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,8 +13,8 @@
     }
 
     .sidebar {
-      width: 200px;
-      background-color: #6402ff;
+      width: 290px;
+      background-color: #241446;
       padding: 10px;
       position: fixed;
       height: 100vh;
@@ -24,11 +24,12 @@
     }
 
     .content {
-      margin-left: 200px;
+      margin-left: 290px;
       flex-grow: 1;
-      padding: 20px;
-      height: 100%;
-      overflow-y: auto;
+      height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 0;
     }
 
     .sidebar ul {
@@ -108,21 +109,6 @@
       font-size: 25px;
     }
 
-    /* Сховати блоки по замовчуванню */
-    #roleSelect, #classSelect, #teacherSelect {
-      display: none;
-    }
-
-    /* Стилі для тексту "Тут буде Ваш розклад" */
-    #defaultText {
-      font-size: 24px;
-      text-align: center;
-      margin-top: 50px;
-    }
-
-    #classSelect, #teacherSelect {
-      margin-top: 20px;
-    }
     select {
       width: 100%;
       padding: 10px;
@@ -133,60 +119,31 @@
       background-color: #fff;
     }
 
-    /* Стилі для option */
     option {
       font-size: 16px;
       padding: 10px;
     }
 
-    /* Стилі для кнопки вибору класу та викладача */
-    #classDropdown, #teacherDropdown {
-      margin-top: 20px;
-    }
-
-    /* Додаткові стилі для "Оберіть клас" та "Оберіть викладача" */
     #classDropdown option, #teacherDropdown option {
       background-color: #f4f4f4;
     }
 
-    /* При наведенні курсора на елемент */
     #classDropdown option:hover, #teacherDropdown option:hover {
       background-color: #ddd;
     }
 
-    /* Стилі для контейнера для вибору класу та викладача */
-    #classSelect, #teacherSelect {
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #6402ff;
-      border-radius: 5px;
-      color: white;
-    }
-
-    /* Стилі для заголовку */
     #classSelect h3, #teacherSelect h3 {
       font-size: 18px;
       margin-bottom: 10px;
-    }
-
-    /* Загальний стиль для всіх елементів select */
-    #classDropdown, #teacherDropdown {
-      font-size: 16px;
-      padding: 8px;
-      background-color: #f4f4f4;
-      border-radius: 5px;
-    }
-
-    /* Стилизація для активних елементів */
-    #classDropdown:focus, #teacherDropdown:focus {
-      border-color: #6402ff;
-      outline: none;
     }
   </style>
 </head>
 <body>
 <div class="sidebar">
   <ul>
+    <li>
+      <a href="/adminPanel" style="font-size: 30px;">Адміністративна<br>панель</a>
+    </li>
     <li><a href="#">Головна</a></li>
     <li>
       <a class="nav-link" href="#" data-toggle="collapse" data-target="#w7-collapse2" aria-expanded="false" aria-controls="w7-collapse2">
@@ -200,6 +157,10 @@
       </div>
     </li>
   </ul>
+</div>
+<div class="content" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+  <img src="/images/main.png" alt="Головне зображення"
+       style="max-width: 100vw; max-height: 100vh; height: auto; width: auto; display: block;">
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", function() {

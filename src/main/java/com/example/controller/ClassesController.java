@@ -31,5 +31,6 @@ public class ClassesController {
         model.addAttribute("classes", classesName);
         return "classes";
     }
+
 }
 

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -26,4 +28,7 @@ public class Classes {
     public String toString() {
         return name;
     }
+
+    @OneToMany(mappedBy = "classes", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Schedule> schedules;
 }

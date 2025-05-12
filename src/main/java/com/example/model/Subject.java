@@ -17,7 +17,7 @@ public class Subject {
 
     private String name;
 
-    @OneToMany(mappedBy = "subject")
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TeacherSubject> teacherSubjects;
 
 }

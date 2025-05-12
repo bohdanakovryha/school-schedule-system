@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Classes</title>
     <style>
-        /* Загальний стиль для контенту */
         .content {
             flex-grow: 1;
             padding: 20px;
@@ -14,7 +13,6 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* Стиль для заголовка */
         .schedule-title {
             font-size: 32px;
             font-weight: bold;
@@ -24,7 +22,6 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
-        /* Стиль для форми */
         .classes-form {
             display: flex;
             flex-direction: column;
@@ -38,14 +35,12 @@
             margin: 0 auto;
         }
 
-        /* Стиль для мітки */
         .form-label {
             font-size: 18px;
             font-weight: bold;
             color: #333333;
         }
 
-        /* Стиль для select */
         .form-select {
             width: 100%;
             padding: 10px;
@@ -62,7 +57,6 @@
             box-shadow: 0 0 5px rgba(100, 2, 255, 0.5);
         }
 
-        /* Стиль для кнопки */
         .form-submit {
             width: 100%;
             padding: 10px;
@@ -84,7 +78,6 @@
             background-color: rgba(100, 2, 255, 0.6);
         }
 
-        /* Стиль для таблиці */
         .schedule-table {
             background-color: #ffffff;
             border-radius: 10px;
@@ -122,9 +115,30 @@
         .schedule-table tr:hover td {
             background-color: rgba(100, 2, 255, 0.2);
         }
+        .back-button {
+            display: inline-block;
+            font-size: 18px;
+            font-weight: bold;
+            color: #241445;
+            text-decoration: none;
+            margin-bottom: 20px;
+            margin-left: 10px;
+            background-color: #ffffff;
+            border: 2px solid #241445;
+            border-radius: 5px;
+            padding: 5px 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #dcd3f2;
+        }
     </style>
 </head>
 <body>
+<a href="/" class="back-button">
+    ← Назад
+</a>
 <div class="content">
     <h1 class="schedule-title">Розклад для класів</h1>
     <form class="classes-form" action="#" th:action="@{/schedule/classes}" method="get">

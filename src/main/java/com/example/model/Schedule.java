@@ -24,28 +24,14 @@ public class Schedule {
     private TeacherSubject teacherSubject;
 
     @ManyToOne
-    @JoinColumn(name = "day_of_week_id")
+    @JoinColumn(name = "day_of_week_id", referencedColumnName = "id")
     private DayOfWeek dayOfWeek;
 
     @ManyToOne
     @JoinColumn(name = "lesson_time_id")
     private LessonTime lessonTime;
 
-    /*@ManyToOne
-    @JoinColumn(name = "teacher_id")
-    private Teacher teacher;*/
-
-    // Teacher is associated via TeacherSubject, not directly
     public Teacher getTeacher() {
         return teacherSubject != null ? teacherSubject.getTeacher() : null;
     }
-
-   /* public Teacher getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-    }*/
-
 }

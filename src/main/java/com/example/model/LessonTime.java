@@ -17,7 +17,7 @@ public class LessonTime {
 
     private String time;
 
-    @OneToMany(mappedBy = "lessonTime")
+    @OneToMany(mappedBy = "lessonTime", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Schedule> schedules;
 
 }

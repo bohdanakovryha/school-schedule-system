@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -25,5 +27,8 @@ public class TeacherSubject {
     public String toString() {
         return subject.getName() + " (" + teacher.getName() + ")";
     }
+
+    @OneToMany(mappedBy = "teacherSubject", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Schedule> schedules;
 
 }

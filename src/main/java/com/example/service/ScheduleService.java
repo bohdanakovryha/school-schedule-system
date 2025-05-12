@@ -1,7 +1,6 @@
 package com.example.service;
 
 import com.example.model.*;
-
 import java.util.List;
 
 public interface ScheduleService {
@@ -14,4 +13,10 @@ public interface ScheduleService {
     List<Schedule> findSchedulesByClassesAndDayOfWeek (Classes classes, DayOfWeek dayOfWeek);
 
     List<Schedule> findSchedulesByClasses (Classes classes);
+
+    List<Schedule> getAll();
+
+    void saveSchedule(Schedule schedule);
+
+    void deleteScheduleById(Long id);
 }
