@@ -1,4 +1,16 @@
 services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.0
+    container_name: keycloak-school-schedule
+    command: start-dev --import-realm
+    ports:
+      - "8081:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - ./keycloak/realm-config/realm-export.json:/opt/keycloak/data/import/realm-export.json
+
   mysql:
     image: mysql:8.0
     container_name: mysql-school
@@ -12,16 +24,18 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
       - ./sql:/docker-entrypoint-initdb.d
+      - ./schoolSchedule:/app/schoolSchedule
     networks:
       - school-network
 
   schoolschedule:
     build: .
+    depends_on:
+      - mysql
+      - keycloak
     container_name: school-schedule-app
     ports:
       - "8080:8080"
-    depends_on:
-      - mysql
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-school:3306/school_schedule
       SPRING_DATASOURCE_USERNAME: schooladmin
@@ -35,4 +49,6 @@ volumes:
 networks:
   school-network:
     driver: bridge
+
+
 

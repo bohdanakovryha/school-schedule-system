@@ -50,8 +50,8 @@ public class ScheduleController {
          return result;
      }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/teacher")
-    @PreAuthorize("hasRole('ADMIN')")
     public String getScheduleByTeacher(Teacher teacher, Model model) {
         Teacher teacherFromDB = teacherService.getTeacherById(teacher.getId());
         model.addAttribute("selectedTeacherId", teacher.getId());

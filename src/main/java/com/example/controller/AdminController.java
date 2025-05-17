@@ -2,8 +2,10 @@ package com.example.controller;
 
 import com.example.model.*;
 import com.example.service.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,36 @@ public class AdminController {
     @Autowired
     private LessonTimeService lessonTimeService;
 
+    /*@GetMapping("/adminPanel")
+    public String adminPanel(HttpSession session, Model model) {
+        String role = (String) session.getAttribute("userRole");
+
+        if ("ADMIN".equals(role)) {
+            return "adminPanel"; // Thymeleaf
+        } else {
+            model.addAttribute("errorMessage", "У Вас немає прав для доступу до адміністративної панелі");
+            return "accessDenied";
+        }
+    }*/
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
+    public String adminPanel(HttpSession session, Model model) {
+        String role = (String) session.getAttribute("userRole");
+        if ("ADMIN".equals(role)) {
+            model.addAttribute("teachers", teacherService.getTeachers());
+            model.addAttribute("subjects", subjectService.getSubjects());
+            model.addAttribute("classes", classService.getClasses());
+            model.addAttribute("teacherSubject", teacherSubjectService.getAll());
+            model.addAttribute("schedule", scheduleService.getAll());
+            model.addAttribute("dayOfWeek", dayOfWeekService.findAllDayOfWeek());
+            model.addAttribute("lessonTime", lessonTimeService.findAll());
+            return "adminPanel";
+        } else {
+            model.addAttribute("errorMessage", "У Вас немає прав для доступу до адміністративної панелі");
+            return "accessDenied";
+        }
+    }
+    /*@PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public String adminPanel(Model model) {
         model.addAttribute("teachers", teacherService.getTeachers());
@@ -38,7 +70,7 @@ public class AdminController {
         model.addAttribute("dayOfWeek", dayOfWeekService.findAllDayOfWeek());
         model.addAttribute("lessonTime", lessonTimeService.findAll());
         return "adminPanel";
-    }
+    }*/
 
     /*@PostMapping("/teacher/add")
     public String addTeacher(@ModelAttribute Teacher teacher, Model model) {

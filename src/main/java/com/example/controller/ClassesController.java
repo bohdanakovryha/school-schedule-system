@@ -24,8 +24,8 @@ public class ClassesController {
         this.classService = classService;
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public String getClasses(Model model) {
         List<Classes> classesName = classService.getClasses();
         model.addAttribute("classes", classesName);

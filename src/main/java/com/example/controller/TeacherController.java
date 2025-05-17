@@ -20,8 +20,8 @@ public class TeacherController {
     @Autowired
     private TeacherService teacherService;
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public String teacher(Model model) {
         List<Teacher> allTeachers = teacherService.getTeachers();
         model.addAttribute("teachers", allTeachers);

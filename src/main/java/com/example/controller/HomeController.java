@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @SecurityRequirement(name = "oauth2Scheme")
 public class HomeController {
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/")
     public String index() {
         return "index";
