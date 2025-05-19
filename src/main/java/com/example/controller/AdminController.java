@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.model.*;
 import com.example.service.*;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -41,7 +42,7 @@ public class AdminController {
             return "accessDenied";
         }
     }*/
-    @PreAuthorize("hasRole('ADMIN')")
+    @RolesAllowed("ROLE_ADMIN")
     @GetMapping
     public String adminPanel(HttpSession session, Model model) {
         String role = (String) session.getAttribute("userRole");

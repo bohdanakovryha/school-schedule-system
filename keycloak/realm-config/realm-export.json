@@ -24,10 +24,13 @@
   "clients": [
     {
       "clientId": "spring-app",
-      "publicClient": true,
+      "publicClient": false,
+      "secret": "pnTNV9g52eB6kQswruM4OGufQjVItyMc",
       "redirectUris": ["http://localhost:8080/*"],
-      "webOrigins": ["+"],
-      "protocol": "openid-connect"
+      "webOrigins": ["http://localhost:8080"],
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true
     }
   ]
 }

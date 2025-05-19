@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.model.Classes;
 import com.example.service.impl.ClassServiceImpl;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,7 @@ public class ClassesController {
         this.classService = classService;
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @RolesAllowed("ROLE_USER")
     @GetMapping
     public String getClasses(Model model) {
         List<Classes> classesName = classService.getClasses();
