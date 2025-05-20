@@ -5,13 +5,13 @@
     {
       "username": "student1",
       "enabled": true,
-      "credentials": [{ "type": "password", "value": "studentpass" }],
+      "credentials": [{ "type": "password", "value": "studentpass", "temporary": false  }],
       "realmRoles": ["USER"]
     },
     {
       "username": "admin1",
       "enabled": true,
-      "credentials": [{ "type": "password", "value": "adminpass" }],
+      "credentials": [{ "type": "password", "value": "adminpass", "temporary": false }],
       "realmRoles": ["ADMIN"]
     }
   ],
@@ -25,7 +25,7 @@
     {
       "clientId": "spring-app",
       "publicClient": false,
-      "secret": "pnTNV9g52eB6kQswruM4OGufQjVItyMc",
+      "secret": "8IyUu2BbngiOmLn2sMmMH4Q0PPZgD7yo",
       "redirectUris": ["http://localhost:8080/login/oauth2/code/keycloak"],
       "webOrigins": ["http://localhost:8080"],
       "protocol": "openid-connect",

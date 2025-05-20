@@ -31,7 +31,19 @@ public class Schedule {
     @JoinColumn(name = "lesson_time_id")
     private LessonTime lessonTime;
 
+    public Schedule() {
+
+    }
+
     public Teacher getTeacher() {
         return teacherSubject != null ? teacherSubject.getTeacher() : null;
+    }
+
+    public Schedule(Long id, Classes classes, TeacherSubject teacherSubject, DayOfWeek dayOfWeek, LessonTime lessonTime) {
+        this.id = id;
+        this.teacherSubject = teacherSubject;
+        this.classes = classes;
+        this.lessonTime = lessonTime;
+        this.dayOfWeek = dayOfWeek;
     }
 }
