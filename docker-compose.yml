@@ -40,6 +40,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-school:3306/school_schedule
       SPRING_DATASOURCE_USERNAME: schooladmin
       SPRING_DATASOURCE_PASSWORD: schoolpassword
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - school-network
 
