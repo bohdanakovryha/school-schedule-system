@@ -1,3 +1,4 @@
+/*
 package com.example.controller;
 
 import org.springframework.stereotype.Controller;
@@ -8,7 +9,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginPage() {
-        return "login"; // повертає login.html (Thymeleaf)
+        return "login";
     }
-
 }
+*/

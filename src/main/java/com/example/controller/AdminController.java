@@ -6,7 +6,6 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,36 +30,6 @@ public class AdminController {
     @Autowired
     private LessonTimeService lessonTimeService;
 
-    /*@GetMapping("/adminPanel")
-    public String adminPanel(HttpSession session, Model model) {
-        String role = (String) session.getAttribute("userRole");
-
-        if ("ADMIN".equals(role)) {
-            return "adminPanel"; // Thymeleaf
-        } else {
-            model.addAttribute("errorMessage", "У Вас немає прав для доступу до адміністративної панелі");
-            return "accessDenied";
-        }
-    }*/
-    @RolesAllowed("ROLE_ADMIN")
-    @GetMapping
-    public String adminPanel(HttpSession session, Model model) {
-        String role = (String) session.getAttribute("userRole");
-        if ("ADMIN".equals(role)) {
-            model.addAttribute("teachers", teacherService.getTeachers());
-            model.addAttribute("subjects", subjectService.getSubjects());
-            model.addAttribute("classes", classService.getClasses());
-            model.addAttribute("teacherSubject", teacherSubjectService.getAll());
-            model.addAttribute("schedule", scheduleService.getAll());
-            model.addAttribute("dayOfWeek", dayOfWeekService.findAllDayOfWeek());
-            model.addAttribute("lessonTime", lessonTimeService.findAll());
-            return "adminPanel";
-        } else {
-            model.addAttribute("errorMessage", "У Вас немає прав для доступу до адміністративної панелі");
-            return "accessDenied";
-        }
-    }
-    /*@PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public String adminPanel(Model model) {
         model.addAttribute("teachers", teacherService.getTeachers());
@@ -71,17 +40,7 @@ public class AdminController {
         model.addAttribute("dayOfWeek", dayOfWeekService.findAllDayOfWeek());
         model.addAttribute("lessonTime", lessonTimeService.findAll());
         return "adminPanel";
-    }*/
-
-    /*@PostMapping("/teacher/add")
-    public String addTeacher(@ModelAttribute Teacher teacher, Model model) {
-        if (teacher.getName() == null || teacher.getName().isEmpty()) {
-            model.addAttribute("error", "Ім’я викладача не може бути порожнім");
-            return "adminPanel";
-        }
-        teacherService.saveTeacher(teacher);
-        return "redirect:/adminPanel";
-    }*/
+    }
 
     @PostMapping("/teacher/add")
     public String addTeacher(@ModelAttribute Teacher teacher, Model model) {
@@ -94,16 +53,6 @@ public class AdminController {
         }
     }
 
-    /*@DeleteMapping("/teacher/delete/{id}")
-    public String deleteTeacher(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
-        try {
-            teacherService.deleteTeacherById(id);
-            addAllAtributes(model);
-        } catch (DataIntegrityViolationException e) {
-            redirectAttributes.addFlashAttribute("error", "Не можна видалити викладача — є пов’язані розклади або предмети");
-        }
-        return "redirect:/adminPanel";
-    }*/
     @DeleteMapping("/teacher/delete/{id}")
     public String deleteTeacher(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
@@ -117,12 +66,6 @@ public class AdminController {
         return "redirect:/adminPanel";
     }
 
-    /*@PostMapping("/subject/add")
-    public String addSubject(@ModelAttribute Subject subject) {
-        subjectService.saveSubject(subject);
-        return "redirect:/adminPanel";
-    }*/
-
     @PostMapping("/subject/add")
     public String addSubject(@ModelAttribute Subject subject, RedirectAttributes redirectAttributes) {
         try {
@@ -133,17 +76,6 @@ public class AdminController {
             return "redirect:/adminPanel";
         }
     }
-
-    /*@DeleteMapping("/subject/delete/{id}")
-    public String deleteSubject(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
-        try {
-            subjectService.deleteSubjectById(id);
-            addAllAtributes(model);
-        } catch (DataIntegrityViolationException e) {
-            redirectAttributes.addFlashAttribute("error", "Не можна видалити предмет — є пов’язані викладачі або уроки");
-        }
-        return "redirect:/adminPanel";
-    }*/
 
     @DeleteMapping("/subject/delete/{id}")
     public String deleteSubject(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
@@ -158,12 +90,6 @@ public class AdminController {
         return "redirect:/adminPanel";
     }
 
-   /* @PostMapping("/class/add")
-    public String addClass(@ModelAttribute Classes classes) {
-        classService.saveClass(classes);
-        return "redirect:/adminPanel";
-    }*/
-
     @PostMapping("/class/add")
     public String addClass(@ModelAttribute Classes classes, RedirectAttributes redirectAttributes) {
         try {
@@ -174,17 +100,6 @@ public class AdminController {
             return "redirect:/adminPanel";
         }
     }
-
-   /* @DeleteMapping("/class/delete/{id}")
-    public String deleteClass(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
-        try {
-            classService.deleteClassById(id);
-            addAllAtributes(model);
-        } catch (DataIntegrityViolationException e) {
-            model.addAttribute("error", "Не можна видалити клас — у нього є уроки");
-        }
-        return "redirect:/adminPanel";
-    }*/
 
     @DeleteMapping("/class/delete/{id}")
     public String deleteClass(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
@@ -206,7 +121,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/teacherSubject/delete/{id}")
-    public String deleteTeacherSubject(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+    public String deleteTeacherSubject(@PathVariable Long id, Model model) {
         try {
             teacherSubjectService.deleteTeacherSubjectById(id);
             addAllAtributes(model);
@@ -215,16 +130,6 @@ public class AdminController {
         }
         return "redirect:/adminPanel";
     }
-
-   /* @PostMapping("/schedule/add")
-    public String addSchedule(@ModelAttribute Schedule schedule, RedirectAttributes redirectAttributes) {
-        try {
-            scheduleService.saveSchedule(schedule);
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Не вдалося додати розклад. Перевірте коректність даних або зв’язки.");
-        }
-        return "redirect:/adminPanel";
-    }*/
 
     @PostMapping("/schedule/add")
     public String addSchedule(@ModelAttribute Schedule schedule, RedirectAttributes redirectAttributes) {
@@ -240,18 +145,6 @@ public class AdminController {
         }
     }
 
-
-   /* @DeleteMapping("/schedule/delete/{id}")
-    public String deleteSchedule(@PathVariable Long id, Model model) {
-        try {
-            scheduleService.deleteScheduleById(id);
-            addAllAtributes(model);
-        } catch (DataIntegrityViolationException e) {
-            model.addAttribute("error", "Не можна видалити розклад");
-        }
-        return "redirect:/adminPanel";
-    }*/
-
     @DeleteMapping("/schedule/delete/{id}")
     public String deleteSchedule(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
@@ -262,24 +155,6 @@ public class AdminController {
         }
         return "redirect:/adminPanel";
     }
-
-
-    /*@PostMapping("/day/add")
-    public String addDay(@ModelAttribute DayOfWeek dayOfWeek) {
-        dayOfWeekService.saveDayOfWeek(dayOfWeek);
-        return "redirect:/adminPanel";
-    }
-
-    @DeleteMapping("/day/delete/{id}")
-    public String deleteDay(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
-        try {
-            dayOfWeekService.deleteDayOfWeekById(id);
-            addAllAtributes(model);
-        } catch (DataIntegrityViolationException e) {
-            model.addAttribute("error", "Не можна видалити день тижня — пов’язано з розкладом");
-        }
-        return "redirect:/adminPanel";
-    }*/
 
     @PostMapping("/day/add")
     public String addDay(@ModelAttribute DayOfWeek dayOfWeek, RedirectAttributes redirectAttributes) {

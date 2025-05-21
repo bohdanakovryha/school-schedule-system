@@ -7,5 +7,6 @@ public interface LessonTimeService {
     List<LessonTime> findAll();
 
     void saveLessonTime(LessonTime lessonTime);
+
     void deleteLessonTimeById(Long id);
 }

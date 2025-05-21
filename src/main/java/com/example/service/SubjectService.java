@@ -1,7 +1,6 @@
 package com.example.service;
 
 import com.example.model.Subject;
-
 import java.util.List;
 
 public interface SubjectService {

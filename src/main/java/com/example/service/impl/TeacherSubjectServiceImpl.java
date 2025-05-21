@@ -1,6 +1,5 @@
 package com.example.service.impl;
 
-import com.example.model.Classes;
 import com.example.model.Teacher;
 import com.example.model.TeacherSubject;
 import com.example.repository.TeacherSubjectRepository;
@@ -8,7 +7,6 @@ import com.example.service.TeacherSubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -26,11 +24,6 @@ public class TeacherSubjectServiceImpl implements TeacherSubjectService {
         return teacherSubjectRepository.findAll();
     }
 
-   /* @Override
-    public void saveTeacherSubject(TeacherSubject teacherSubject) {
-        teacherSubjectRepository.save(teacherSubject);
-    }*/
-
     @Override
     public void saveTeacherSubject(TeacherSubject teacherSubject) {
         if (teacherSubject.getTeacher() == null || teacherSubject.getSubject() == null) {
@@ -38,7 +31,6 @@ public class TeacherSubjectServiceImpl implements TeacherSubjectService {
         }
         teacherSubjectRepository.save(teacherSubject);
     }
-
 
     @Override
     public void deleteTeacherSubjectById(Long teacherSubjectId) {

@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.config;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,6 +10,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public String handleRuntimeException(RuntimeException ex, Model model) {
         model.addAttribute("errorMessage", ex.getMessage());
-        return "error-page";
+        return "accessDenied";
     }
 }

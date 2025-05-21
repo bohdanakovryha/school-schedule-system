@@ -1,6 +1,5 @@
 package com.example.service.impl;
 
-import com.example.model.DayOfWeek;
 import com.example.model.LessonTime;
 import com.example.repository.LessonTimeRepository;
 import com.example.service.LessonTimeService;

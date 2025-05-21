@@ -50,22 +50,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleRepository.findAll();
     }
 
-    /*@Override
-    public void saveSchedule(Schedule schedule) {
-        // Перевірка на дублікати
-        List<Schedule> existingSchedules = scheduleRepository.findSchedulesByTeacherSubjectAndDayOfWeek(schedule.getTeacherSubject(), schedule.getDayOfWeek());
-        for (Schedule existingSchedule : existingSchedules) {
-            if (existingSchedule.getLessonTime().equals(schedule.getLessonTime()) && existingSchedule.getClasses().equals(schedule.getClasses())) {
-                throw new RuntimeException("Цей урок вже існує в розкладі!");
-            }
-        }
-
-        scheduleRepository.save(schedule);
-    }*/
-
     @Override
     public void saveSchedule(Schedule schedule) {
-        // Перевірка на дублікати
         List<Schedule> existingSchedules = scheduleRepository.findSchedulesByTeacherSubjectAndDayOfWeek(schedule.getTeacherSubject(), schedule.getDayOfWeek());
         for (Schedule existingSchedule : existingSchedules) {
             if (existingSchedule.getLessonTime().equals(schedule.getLessonTime()) && existingSchedule.getClasses().equals(schedule.getClasses())) {
@@ -76,19 +62,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleRepository.save(schedule);
     }
 
-
-    /*@Override
-    public void deleteScheduleById(Long scheduleId) {
-        if(!scheduleRepository.existsById(scheduleId)) {
-            throw new RuntimeException(("Schedule with id " + scheduleId + " already exists"));
-        }
-
-        try{
-            scheduleRepository.deleteById(scheduleId);
-        } catch (DataIntegrityViolationException e){
-            throw new DataIntegrityViolationException("Schedule with id " + scheduleId + " already exists");
-        }
-    }*/
     @Override
     public void deleteScheduleById(Long scheduleId) {
         if (!scheduleRepository.existsById(scheduleId)) {
@@ -101,5 +74,4 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new DataIntegrityViolationException("Неможливо видалити розклад — є пов’язані дані");
         }
     }
-
 }

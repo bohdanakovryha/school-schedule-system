@@ -1,11 +1,9 @@
 package com.example.controller;
+
 import com.example.model.*;
-import com.example.repository.*;
 import com.example.service.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +20,6 @@ public class ScheduleController {
     private TeacherController teacherController;
     @Autowired
     private ClassesController classesController;
-
     @Autowired
     private TeacherService teacherService;
     @Autowired
@@ -51,7 +48,6 @@ public class ScheduleController {
          return result;
      }
 
-    @RolesAllowed("ROLE_USER")
     @GetMapping("/teacher")
     public String getScheduleByTeacher(Teacher teacher, Model model) {
         Teacher teacherFromDB = teacherService.getTeacherById(teacher.getId());
@@ -112,7 +108,6 @@ public class ScheduleController {
     }
 
     @GetMapping("/classes")
-    @PreAuthorize("hasRole('ADMIN')")
     public String getScheduleByClass(Classes classes, Model model) {
         Classes classesFromDB = classService.findClassById(classes.getId());
         model.addAttribute("selectedClassesId", classes.getId());

@@ -6,8 +6,6 @@ import com.example.service.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
-import javax.xml.crypto.Data;
 import java.util.List;
 
 @Service
@@ -25,11 +23,6 @@ public class ClassServiceImpl implements ClassService {
         return classesRepository.findById(classId).orElseThrow(() -> new RuntimeException("class not found"));
     }
 
-    /*@Override
-    public void saveClass(Classes classes) {
-        classesRepository.save(classes);
-    }*/
-
     @Override
     public void saveClass(Classes classes) {
         if (classes.getName() == null || classes.getName().isEmpty()) {
@@ -37,7 +30,6 @@ public class ClassServiceImpl implements ClassService {
         }
         classesRepository.save(classes);
     }
-
 
     @Override
     public void deleteClassById(Long classId) {

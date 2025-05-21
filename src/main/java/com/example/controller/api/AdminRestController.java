@@ -4,7 +4,6 @@ import com.example.model.*;
 import com.example.service.*;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -112,7 +111,6 @@ public class AdminRestController {
         lessonTimeService.deleteLessonTimeById(id);
     }
 
-    // DTO для зручного отримання всіх даних одразу
     public record AdminDataResponse(
             List<Teacher> teachers,
             List<Subject> subjects,

@@ -6,7 +6,6 @@ import com.example.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -20,11 +19,6 @@ public class SubjectServiceImpl implements SubjectService {
         return subjectRepository.findAll();
     }
 
-   /* @Override
-    public void saveSubject(Subject subject) {
-        subjectRepository.save(subject);
-    }*/
-
     @Override
     public void saveSubject(Subject subject) {
         if (subject.getName() == null || subject.getName().isEmpty()) {
@@ -32,7 +26,6 @@ public class SubjectServiceImpl implements SubjectService {
         }
         subjectRepository.save(subject);
     }
-
 
     @Override
     public void deleteSubjectById(Long id) {

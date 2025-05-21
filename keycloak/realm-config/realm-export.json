@@ -5,32 +5,38 @@
     {
       "username": "student1",
       "enabled": true,
-      "credentials": [{ "type": "password", "value": "studentpass", "temporary": false  }],
-      "realmRoles": ["USER"]
+      "credentials": [{ "type": "password", "value": "studentpass" }],
+      "realmRoles": ["ROLE_USER"],
+      "firstName": "Student1",
+      "lastName": "Student",
+      "email": "student1@example.com"
     },
     {
       "username": "admin1",
       "enabled": true,
-      "credentials": [{ "type": "password", "value": "adminpass", "temporary": false }],
-      "realmRoles": ["ADMIN"]
+      "credentials": [{ "type": "password", "value": "adminpass" }],
+      "realmRoles": ["ROLE_ADMIN"],
+      "firstName": "adminName",
+      "lastName": "adminLastname",
+      "email": "admin@example.com"
     }
   ],
   "roles": {
     "realm": [
-      { "name": "USER" },
-      { "name": "ADMIN" }
+      { "name": "ROLE_USER" },
+      { "name": "ROLE_ADMIN" }
     ]
   },
   "clients": [
     {
       "clientId": "spring-app",
-      "publicClient": false,
-      "secret": "8IyUu2BbngiOmLn2sMmMH4Q0PPZgD7yo",
-      "redirectUris": ["http://localhost:8080/login/oauth2/code/keycloak"],
+      "redirectUris": ["http://keycloak-school-schedule:8080/login/oauth2/code/keycloak", "http://localhost:8080/login/oauth2/code/keycloak"],
       "webOrigins": ["http://localhost:8080"],
-      "protocol": "openid-connect",
-      "standardFlowEnabled": true,
-      "directAccessGrantsEnabled": true
+      "baseUrl": "http://localhost:8080/",
+      "defaultRoles": ["ROLE_USER"],
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "protocol": "openid-connect"
     }
   ]
 }

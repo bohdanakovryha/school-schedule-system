@@ -1,16 +1,4 @@
 services:
-  keycloak:
-    image: quay.io/keycloak/keycloak:25.0.0
-    container_name: keycloak-school-schedule
-    command: start-dev --import-realm
-    ports:
-      - "8081:8080"
-    environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-    volumes:
-      - ./keycloak/realm-config/realm-export.json:/opt/keycloak/data/import/realm-export.json
-
   mysql:
     image: mysql:8.0
     container_name: mysql-school
@@ -23,27 +11,47 @@ services:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./sql:/docker-entrypoint-initdb.d
-      - ./schoolSchedule:/app/schoolSchedule
     networks:
       - school-network
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.0
+    container_name: keycloak-school-schedule
+    command: start-dev --import-realm
+    ports:
+      - "9090:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - ./keycloak/realm-config/realm-export.json:/opt/keycloak/data/import/realm-export.json
+    networks:
+      - school-network
+    healthcheck:
+      test: [ "CMD-SHELL", "timeout 30 sh -c '</dev/tcp/localhost/8080'" ]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
   schoolschedule:
     build: .
-    depends_on:
-      - mysql
-      - keycloak
     container_name: school-schedule-app
+    depends_on:
+      keycloak:
+        condition: service_healthy
+      mysql:
+        condition: service_started
     ports:
-      - "8080:8080"
+      - "8083:8083"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-school:3306/school_schedule
       SPRING_DATASOURCE_USERNAME: schooladmin
       SPRING_DATASOURCE_PASSWORD: schoolpassword
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     networks:
       - school-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 volumes:
   mysql-data:
@@ -51,6 +59,3 @@ volumes:
 networks:
   school-network:
     driver: bridge
-
-
-

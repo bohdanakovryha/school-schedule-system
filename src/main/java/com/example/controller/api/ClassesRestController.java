@@ -31,22 +31,3 @@ public class ClassesRestController {
         return classService.findClassById(id);
     }
 }
-/*@RestController
-@RequestMapping("/api/classes")
-@SecurityRequirement(name = "oauth2Scheme")
-public class ClassesRestController {
-
-    private final ClassServiceImpl classService;
-
-    @Autowired
-    public ClassesRestController(ClassServiceImpl classService) {
-        this.classService = classService;
-    }
-
-    @RolesAllowed("ROLE_USER")
-    @GetMapping
-    public List<Classes> getClasses() {
-        return classService.getClasses(); // JSON повертається
-    }
-}
-*/
