@@ -12,7 +12,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/teachers")
-@SecurityRequirement(name = "oauth2Scheme")
 public class TeacherController {
     @Autowired
     private TeacherService teacherService;

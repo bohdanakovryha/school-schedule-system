@@ -13,7 +13,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/classes")
-@SecurityRequirement(name = "oauth2Scheme")
 public class ClassesController {
 
     private final ClassServiceImpl classService;

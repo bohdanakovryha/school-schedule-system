@@ -14,7 +14,6 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/schedule")
-@SecurityRequirement(name = "oauth2Scheme")
 public class ScheduleController {
     @Autowired
     private TeacherController teacherController;
