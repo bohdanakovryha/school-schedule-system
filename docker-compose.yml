@@ -13,35 +13,18 @@ services:
       - mysql-data:/var/lib/mysql
     networks:
       - school-network
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:25.0.0
-    container_name: keycloak-school-schedule
-    command: start-dev --import-realm
-    ports:
-      - "9090:8080"
-    environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-    volumes:
-      - ./keycloak/realm-config/realm-export.json:/opt/keycloak/data/import/realm-export.json
-    networks:
-      - school-network
     healthcheck:
-      test: [ "CMD-SHELL", "timeout 30 sh -c '</dev/tcp/localhost/8080'" ]
-      interval: 15s
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
       timeout: 5s
       retries: 10
-      start_period: 60s
 
   schoolschedule:
     build: .
     container_name: school-schedule-app
     depends_on:
-      keycloak:
-        condition: service_healthy
       mysql:
-        condition: service_started
+        condition: service_healthy
     ports:
       - "8083:8083"
     environment:

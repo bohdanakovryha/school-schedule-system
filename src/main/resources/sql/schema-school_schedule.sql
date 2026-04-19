@@ -45,3 +45,22 @@ CREATE TABLE IF NOT EXISTS SCHEDULE (
     FOREIGN KEY (lesson_time_id) REFERENCES LESSON_TIME(id)
     );
 
+CREATE TABLE IF NOT EXISTS users (
+                                     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                     username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    enabled BOOLEAN DEFAULT TRUE
+    );
+
+CREATE TABLE IF NOT EXISTS roles (
+                                     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                     name VARCHAR(50) NOT NULL UNIQUE
+    );
+
+CREATE TABLE IF NOT EXISTS users_roles (
+                                           user_id BIGINT,
+                                           role_id BIGINT,
+                                           PRIMARY KEY (user_id, role_id),
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(id)
+    );

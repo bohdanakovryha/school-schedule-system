@@ -134,19 +134,28 @@
             background-color: #dcd3f2;
         }
 
+        .logo {
+            width: 190px;
+            height: auto;
+            display: block;
+            margin-bottom: 20px;
+        }
     </style>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png">
 </head>
 <body>
 <a href="/" class="back-button">
     ← Назад
 </a>
-<div class="content">
+<div class="content" style="text-align: center;">
+
     <h1 class="schedule-title" style="color: #241445">Адмін панель</h1>
 
     <div th:if="${error}">
         <p style="color:red;" th:text="${error}"></p>
     </div>
 </div>
+
 <!-- Teacher Entity -->
 <div class="content">
     <h2 class="schedule-title">Викладачі</h2>

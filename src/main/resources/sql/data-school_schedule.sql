@@ -357,3 +357,18 @@ INSERT INTO SCHEDULE (id, lesson_number, class_id, teacher_subject_id, day_of_we
 INSERT INTO SCHEDULE (id, lesson_number, class_id, teacher_subject_id, day_of_week_id, lesson_time_id) VALUES (246, 6, 11, 21, 5, 6);
 INSERT INTO SCHEDULE (id, lesson_number, class_id, teacher_subject_id, day_of_week_id, lesson_time_id) VALUES (247, 6, 8, 23, 5, 6);
 INSERT INTO SCHEDULE (id, lesson_number, class_id, teacher_subject_id, day_of_week_id, lesson_time_id) VALUES (248, 6, 10, 31, 5, 6);
+
+INSERT INTO roles (id, name) VALUES
+                                 (1, 'ROLE_ADMIN'),
+                                 (2, 'ROLE_STUDENT'),
+                                 (3, 'ROLE_TEACHER');
+
+INSERT INTO users (id, username, password, enabled) VALUES
+                                                        (1, 'admin', 'admin', true),
+                                                        (2, 'student1', 'studentpass1', true),
+                                                        (3, 'teacher1', 'teacherpass1', true);
+
+INSERT INTO users_roles (user_id, role_id) VALUES
+                                               (1, 1), -- admin → ADMIN
+                                               (2, 2), -- student → STUDENT
+                                               (3, 3); -- teacher → TEACHER

@@ -15,12 +15,13 @@ import java.util.List;
 @RequestMapping("/classes")
 public class ClassesController {
 
-    private final ClassServiceImpl classService;
-
+    @Autowired
+    private ClassServiceImpl classService;
+    /*
     @Autowired
     public ClassesController(ClassServiceImpl classService) {
         this.classService = classService;
-    }
+    }*/
 
     @GetMapping
     public String getClasses(Model model) {

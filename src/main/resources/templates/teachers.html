@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang=”en” xmlns:th=”http://www.thymeleaf.org”>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Розклад викладача</title>
     <style>
@@ -136,7 +136,15 @@
         .back-button:hover {
             background-color: #dcd3f2;
         }
+
+        .logo {
+            width: 190px;
+            height: auto;
+            display: block;
+            margin-bottom: 20px;
+        }
     </style>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png">
 </head>
 <body>
 <a href="/" class="back-button">
@@ -153,6 +161,11 @@
     </form>
 </div>
 <div class="content">
+
+    <!--<div style="text-align: center; margin-bottom: 15px;">
+        <img src="/images/logo.png" alt="Schedify Logo" class="logo"/>
+    </div>
+-->
     <div th:if="${schedule}" class="schedule-table">
         <table>
             <thead>
