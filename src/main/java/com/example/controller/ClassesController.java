@@ -13,15 +13,15 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/classes")
-@SecurityRequirement(name = "oauth2Scheme")
 public class ClassesController {
 
-    private final ClassServiceImpl classService;
-
+    @Autowired
+    private ClassServiceImpl classService;
+    /*
     @Autowired
     public ClassesController(ClassServiceImpl classService) {
         this.classService = classService;
-    }
+    }*/
 
     @GetMapping
     public String getClasses(Model model) {

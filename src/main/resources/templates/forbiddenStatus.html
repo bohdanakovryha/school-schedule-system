@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Access Denied</title>
+
+  <style>
+    body {
+      background-color: #8479b9;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    .container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .back-button {
+      display: inline-block;
+      font-size: 18px;
+      font-weight: bold;
+      color: #241445;
+      text-decoration: none;
+      margin-top: 20px;
+      background-color: #ffffff;
+      border: 2px solid #241445;
+      border-radius: 5px;
+      padding: 10px 15px;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #dcd3f2;
+    }
+  </style>
+  <link rel="icon" type="image/png" href="/static/images/favicon.png">
+</head>
+<body>
+
+<div class="container">
+  <div class="title">У вас немає доступу до цієї сторінки</div>
+
+  <a href="/" class="back-button">
+    ← Назад
+  </a>
+</div>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang=”en” xmlns:th=”http://www.thymeleaf.org”>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -133,13 +133,27 @@
         .back-button:hover {
             background-color: #dcd3f2;
         }
+
+        .logo {
+            width: 190px;
+            height: auto;
+            display: block;
+            margin-bottom: 20px;
+        }
     </style>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png">
 </head>
 <body>
 <a href="/" class="back-button">
     ← Назад
 </a>
 <div class="content">
+
+    <!-- LOGO -->
+    <!--<div style="text-align: center; margin-bottom: 15px;">
+        <img src="/images/logo.png" alt="Schedify Logo" class="logo"/>
+    </div>-->
+
     <h1 class="schedule-title">Розклад для класів</h1>
     <form class="classes-form" action="#" th:action="@{/schedule/classes}" method="get">
         <label class="form-label" for="classes">Оберіть клас:</label>
