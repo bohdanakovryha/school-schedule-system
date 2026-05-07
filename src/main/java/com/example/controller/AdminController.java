@@ -196,6 +196,20 @@ public class AdminController {
         return "redirect:/adminPanel";
     }
 
+    @PostMapping("/schedule/update/{id}")
+    public String updateSchedule(@PathVariable Long id,
+                                 @ModelAttribute Schedule schedule,
+                                 RedirectAttributes redirectAttributes) {
+
+        try {
+            scheduleService.updateSchedule(id, schedule);
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+
+        return "redirect:/adminPanel";
+    }
+
     private String addAllAtributes(Model model) {
         model.addAttribute("teachers", teacherService.getTeachers());
         model.addAttribute("subjects", subjectService.getSubjects());
