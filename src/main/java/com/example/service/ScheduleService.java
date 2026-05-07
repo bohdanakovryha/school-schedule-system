@@ -19,4 +19,6 @@ public interface ScheduleService {
     void saveSchedule(Schedule schedule);
 
     void deleteScheduleById(Long id);
+
+    void updateSchedule(Long id, Schedule schedule);
 }

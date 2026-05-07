@@ -140,6 +140,64 @@
             display: block;
             margin-bottom: 20px;
         }
+
+        .custom-error {
+            background-color: #ffffff;
+            color: #241445;
+            border-left: 6px solid #241445;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .schedule-table th {
+            background-color: #241445;
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .schedule-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .schedule-table tr:hover {
+            background-color: #f3f0ff;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .edit-btn,
+        .delete-btn {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .edit-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .delete-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
     <link rel="icon" type="image/png" href="/static/images/favicon.png">
 </head>
@@ -354,6 +412,11 @@
 
 <!-- Schedule Entity -->
 <div class="content">
+
+    <div th:if="${error}" class="custom-error">
+        <span th:text="${error}"></span>
+    </div>
+
     <h2 class="schedule-title">Розклад</h2>
 
     <button class="dropdown-toggle" type="button" onclick="toggleDropdown('ScheduleBlock', this)">
@@ -396,15 +459,119 @@
         </button>
 
         <div id="ScheduleDropdown" class="entity-list" style="display: none;">
-            <ul>
-                <li th:each="s : ${schedule}">
-                    <span th:text="${s.lessonNumber + '. ' + s.classes.name + ', ' + s.teacherSubject.teacher.name + ' — ' + s.teacherSubject.subject.name + ', ' + s.dayOfWeek.name + ', ' + s.lessonTime.time}"></span>
-                    <form th:action="@{/adminPanel/schedule/delete/{id}(id=${s.id})}" method="post">
-                        <input type="hidden" name="_method" value="delete"/>
-                        <button class="form-submit" type="submit">Видалити</button>
+            <table class="schedule-table">
+                <thead>
+                <tr>
+                    <th>Номер</th>
+                    <th>Клас</th>
+                    <th>Викладач - Предмет</th>
+                    <th>День</th>
+                    <th>Час уроку</th>
+                    <th>Дії</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="s : ${schedule}">
+
+                    <form th:action="@{/adminPanel/schedule/update/{id}(id=${s.id})}"
+                          method="post">
+
+                        <td>
+                            <input type="number"
+                                   name="lessonNumber"
+                                   th:value="${s.lessonNumber}"
+                                   class="form-control"
+                                   readonly/>
+                        </td>
+
+                        <td>
+                            <select name="classes"
+                                    class="form-select"
+                                    disabled>
+
+                                <option th:each="c : ${classes}"
+                                        th:value="${c.id}"
+                                        th:text="${c.name}"
+                                        th:selected="${c.id == s.classes.id}">
+                                </option>
+
+                            </select>
+                        </td>
+
+                        <td>
+                            <select name="teacherSubject"
+                                    class="form-select"
+                                    disabled>
+
+                                <option th:each="ts : ${teacherSubject}"
+                                        th:value="${ts.id}"
+                                        th:text="${ts.teacher.name + ' — ' + ts.subject.name}"
+                                        th:selected="${ts.id == s.teacherSubject.id}">
+                                </option>
+
+                            </select>
+                        </td>
+
+                        <td>
+                            <select name="dayOfWeek"
+                                    class="form-select"
+                                    disabled>
+
+                                <option th:each="d : ${dayOfWeek}"
+                                        th:value="${d.id}"
+                                        th:text="${d.name}"
+                                        th:selected="${d.id == s.dayOfWeek.id}">
+                                </option>
+
+                            </select>
+                        </td>
+
+                        <td>
+                            <select name="lessonTime"
+                                    class="form-select"
+                                    disabled>
+
+                                <option th:each="l : ${lessonTime}"
+                                        th:value="${l.id}"
+                                        th:text="${l.time}"
+                                        th:selected="${l.id == s.lessonTime.id}">
+                                </option>
+
+                            </select>
+                        </td>
+
+                        <td class="action-buttons">
+
+                            <button type="button"
+                                    class="edit-btn"
+                                    onclick="enableEdit(this)">
+                                Редагувати
+                            </button>
+
+                            <button type="submit"
+                                    class="delete-btn">
+                                Зберегти
+                            </button>
+
                     </form>
-                </li>
-            </ul>
+
+                    <form th:action="@{/adminPanel/schedule/delete/{id}(id=${s.id})}"
+                          method="post">
+
+                        <input type="hidden" name="_method" value="delete"/>
+
+                        <button class="delete-btn" type="submit">
+                            Видалити
+                        </button>
+
+                    </form>
+
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -421,6 +588,21 @@
         }
         window.toggleDropdown = toggleDropdown;
     });
+
+    function enableEdit(button) {
+
+        const row = button.closest("tr");
+
+        const inputs =
+            row.querySelectorAll("input, select");
+
+        inputs.forEach(el => {
+
+            el.removeAttribute("readonly");
+            el.removeAttribute("disabled");
+
+        });
+    }
 </script>
 </body>
 </html>
